@@ -72,7 +72,7 @@ public class RegisterCardActivity extends AppCompatActivity {
                 toastMake(toastMessage_failed, 0, +350);
             }
         }
-        //atualizar
+        //atualizarr
         else{
             if (groupName.length() != 0){
                 UPData(kbn);
