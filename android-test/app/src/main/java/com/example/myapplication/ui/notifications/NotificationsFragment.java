@@ -67,7 +67,7 @@ public class NotificationsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
 
                 String s1 = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
-                //String s2  = ((TextView)view.findViewById(android.R.id.text2)).getText().toString();s
+                //String s2  = ((TextView)view.findViewById(android.R.id.text2)).getText().toString();
 
                 Intent intent = new Intent(getActivity().getApplication(), RegisterCardActivity.class);
                 intent.putExtra("KBN", s1);
