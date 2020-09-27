@@ -53,11 +53,11 @@ public class NotificationsFragment extends Fragment {
         SQLiteDatabase db = myOpenHelper.getWritableDatabase();
 
         Cursor c = db.rawQuery("select * from mycardtb", null);
-        String[] from = {"_id", "groupName"};
+        String[] from = {"groupName"};
 
-        int[] to = {android.R.id.text1, android.R.id.text2};
+        int[] to = {android.R.id.text1};
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_2, c, from, to, 0);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
         myListView.setAdapter(adapter);
 
         myListView.setItemsCanFocus(false);
@@ -101,10 +101,10 @@ public class NotificationsFragment extends Fragment {
         SQLiteDatabase db = myOpenHelper.getWritableDatabase();
 
         Cursor c = db.rawQuery("select * from mycardtb", null);
-        String[] from = {"_id", "groupName"};
+        String[] from = {"groupName"};
 
-        int[] to = {android.R.id.text1, android.R.id.text2};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_2, c, from, to, 0);
+        int[] to = {android.R.id.text1};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
         myListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

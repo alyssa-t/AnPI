@@ -10,6 +10,7 @@
         android:id="@+id/txt_inputGroupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/nome_do_novo_grupo"
         android:inputType="textPersonName"
@@ -17,8 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.282"
-        android:autofillHints="" />
+        app:layout_constraintVertical_bias="0.282" />
 
     <Button
         android:id="@+id/btn_confirmGroupName"
@@ -36,9 +36,22 @@
         android:id="@+id/btn_return"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/voltar"
         android:onClick="Return"
+        android:text="@string/voltar"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_confirmGroupName" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/apagar"
+        android:visibility="invisible"
+        android:onClick="DeleteCard"
+        app:layout_constraintBottom_toTopOf="@+id/btn_return"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

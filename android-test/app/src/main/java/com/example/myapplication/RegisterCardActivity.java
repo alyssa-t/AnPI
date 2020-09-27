@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -34,10 +36,12 @@ public class RegisterCardActivity extends AppCompatActivity {
 
         String KBN = intent.getStringExtra("KBN");
         Button btn_confirmGroupName = findViewById(R.id.btn_confirmGroupName);
+        Button btn_delete = findViewById(R.id.btn_delete);
 
         if(KBN.length() != 0){
             kbn = KBN;
             btn_confirmGroupName.setText(R.string.atualizar);
+            btn_delete.setVisibility(View.VISIBLE);
             readDate(KBN);
 
         }
@@ -47,9 +51,7 @@ public class RegisterCardActivity extends AppCompatActivity {
         }
     }
 
-    public void Return(View view) {
-        finish();
-    }
+
 
     public void SaveGroupData(View view) {
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -75,6 +77,7 @@ public class RegisterCardActivity extends AppCompatActivity {
             if (groupName.length() != 0){
                 UPData(kbn);
                 toastMake(toastMessage_mod, 0 , +350);
+                finish();
             }else{
                 toastMake(toastMessage_failed, 0, +350);
             }
@@ -94,7 +97,7 @@ public class RegisterCardActivity extends AppCompatActivity {
         Cursor cursor = db.query(
                 "mycardtb",
                 new String[]{"groupName"},
-                "_ID = ?",
+                "groupName = ?",
                 new String[]{read},
                 null,null,null
         );
@@ -119,6 +122,38 @@ public class RegisterCardActivity extends AppCompatActivity {
         upvalue.put("groupName",groupName);
 
 
-        db.update("mycardtb",upvalue,"_id=?",new String[]{read});
+        db.update("mycardtb",upvalue,"groupName=?",new String[]{read});
+    }
+
+    public void DeleteCard(View view) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Apagar grupo");
+        builder.setMessage("Gostaria de apagar esse grupo?");
+        builder.setPositiveButton("Sim",
+                new DialogInterface.OnClickListener() {
+                    @Override
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        SQLiteDatabase db = helper.getWritableDatabase();
+                        db.delete("mycardtb", "groupName=?", new String[]{kbn});
+                        finish();
+                    }
+                });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void Return(View view) {
+        finish();
     }
 }
+
