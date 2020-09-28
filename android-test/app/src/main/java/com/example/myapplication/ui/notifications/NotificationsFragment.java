@@ -70,7 +70,7 @@ public class NotificationsFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-                toastMake("long click!", 0 , +350);
+                toastMake("long click!!", 0 , +350);
 
                 return true;
             }
