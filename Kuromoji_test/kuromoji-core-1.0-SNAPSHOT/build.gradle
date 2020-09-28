@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('kuromoji-core-1.0-SNAPSHOT.jar'))
