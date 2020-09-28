@@ -1,12 +1,12 @@
 package com.example.myapplication.ui.notifications;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -30,36 +32,25 @@ public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
     private boolean allowRefresh = false;
-    android.widget.ListView myListView ;
-
+    private android.widget.ListView myListView = null;
+    private SQLiteDatabase db;
+    private OpenHelper myOpenHelper;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
                 ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-
-        OpenHelper myOpenHelper = new OpenHelper(getActivity());
-
-        /*final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
-
+        myOpenHelper = new OpenHelper(getActivity());
         myListView = root.findViewById(R.id.listview_gerenciarGrupo);
-        SQLiteDatabase db = myOpenHelper.getWritableDatabase();
+        db = myOpenHelper.getWritableDatabase();
 
         Cursor c = db.rawQuery("select * from mycardtb", null);
         String[] from = {"groupName"};
-
         int[] to = {android.R.id.text1};
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
         myListView.setAdapter(adapter);
-
         myListView.setItemsCanFocus(false);
 
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,7 +66,23 @@ public class NotificationsFragment extends Fragment {
             }
         });
 
+        myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                toastMake("long click!", 0 , +350);
+
+                return true;
+            }
+        });
+
         return root;
+    }
+
+    private void toastMake(String message, int x, int y) {
+        Toast toast = Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, x, y);
+        toast.show();
     }
 
     @Override
@@ -96,17 +103,13 @@ public class NotificationsFragment extends Fragment {
     }
 
     public void reload(){
-
-        OpenHelper myOpenHelper = new OpenHelper(getActivity());
-        SQLiteDatabase db = myOpenHelper.getWritableDatabase();
+        db = myOpenHelper.getWritableDatabase();
 
         Cursor c = db.rawQuery("select * from mycardtb", null);
         String[] from = {"groupName"};
-
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
         myListView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
     }
 
