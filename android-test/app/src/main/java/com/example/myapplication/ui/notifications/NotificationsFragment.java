@@ -8,9 +8,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -27,6 +31,7 @@ import com.example.myapplication.MainActivity;
 import com.example.myapplication.OpenHelper;
 import com.example.myapplication.R;
 import com.example.myapplication.RegisterCardActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class NotificationsFragment extends Fragment {
 
@@ -38,6 +43,7 @@ public class NotificationsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         notificationsViewModel =
                 ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
@@ -53,10 +59,10 @@ public class NotificationsFragment extends Fragment {
         myListView.setAdapter(adapter);
         myListView.setItemsCanFocus(false);
 
+        //vigia se clicaram em um item especifico da lista
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-
                 String s1 = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
                 //String s2  = ((TextView)view.findViewById(android.R.id.text2)).getText().toString();
 
@@ -66,11 +72,15 @@ public class NotificationsFragment extends Fragment {
             }
         });
 
+        //função para o botao de (+) para add grupo
+
         myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-                toastMake("long click!!", 0 , +350);
+                // TODO Auto-generated method stub
+
+                toastMake("LongClickkkk", 0, 350);
 
                 return true;
             }
@@ -79,6 +89,11 @@ public class NotificationsFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
     private void toastMake(String message, int x, int y) {
         Toast toast = Toast.makeText(this.getActivity(), message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, x, y);
@@ -113,5 +128,26 @@ public class NotificationsFragment extends Fragment {
 
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.option_menu_first, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if(id == R.id.menu_first_a){
+            Intent intent = new Intent(getActivity().getApplication(), RegisterCardActivity.class);
+            intent.putExtra("KBN", "");
+            startActivity(intent);
+        }
+        else{
+            toastMake("Eu ainda sou inutil", 0, 350);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
