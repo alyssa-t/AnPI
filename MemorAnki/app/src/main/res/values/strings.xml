@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MemorAnki</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Estudar</string>
+    <string name="title_notifications">Cartoes</string>
+    <string name="nome_do_novo_grupo">Nome do grupo</string>
+    <string name="atualizar">Atualizar</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="voltar">Voltar</string>
+    <string name="apagar">Apagar</string>
+    <string name="text_info">TextView</string>
+</resources>
