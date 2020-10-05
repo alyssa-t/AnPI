@@ -14,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +27,11 @@ import java.util.List;
 
 public class ListCardActivity extends AppCompatActivity {
 
-    private OpenHelper helper;
-    String kbn = "";
-    String toastMessage_added = "Adicionado com sucesso";
-    String toastMessage_mod = "Atualizado com sucesso";
-    String toastMessage_failed = "Preencha o nome do grupo";
+    private SQLiteDatabase db;
+    private OpenHelper myOpenHelper;
+    ListView myListView;
+
+    private boolean editMode = false;
 
     //comit
 
@@ -38,10 +40,16 @@ public class ListCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_card);
 
-        helper = new OpenHelper(getApplicationContext());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        myOpenHelper = new OpenHelper(getApplicationContext());
+        myListView = findViewById(R.id.listview_gerenciarCard);
         Intent intent = getIntent();
-        toastMake("Entrei no item !!", 0 , 350);
         long id = intent.getLongExtra("KBN", -1);
+        String groupName= readGroupName(id);
+        setTitle(groupName);
+        reload();
 
     }
 
@@ -49,6 +57,29 @@ public class ListCardActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, x, y);
         toast.show();
+    }
+
+    public String readGroupName(long id){
+        db = myOpenHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("select * from mycardtb where _id="+id+ ";", null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        String groupName=  cursor.getString(cursor.getColumnIndex("groupName"));
+        //cursor.close();
+        return groupName;
+    }
+
+    public void reload(){
+        db = myOpenHelper.getWritableDatabase();
+        Cursor c = db.rawQuery("select * from mycardtb", null);
+        String[] from = {"groupName"};
+        int[] to = {android.R.id.text1};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, c, from, to, 0);
+        myListView.setAdapter(adapter);
+        myListView.setItemsCanFocus(false);
+        editMode = false;
+
     }
 
     public void Return() {

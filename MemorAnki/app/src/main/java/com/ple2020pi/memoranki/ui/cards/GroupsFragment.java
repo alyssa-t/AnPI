@@ -245,6 +245,7 @@ public class GroupsFragment extends Fragment {
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.selection_delete, c, from, to, 0);
         myListView.setAdapter(adapter);
+
     }
 
     //FUNCOES PARA ORGANIZAR O CODIGO
