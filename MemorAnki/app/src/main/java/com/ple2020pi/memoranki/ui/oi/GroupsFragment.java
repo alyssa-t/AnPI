@@ -1,4 +1,4 @@
-package com.ple2020pi.memoranki.ui.cards;
+package com.ple2020pi.memoranki.ui.oi;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -52,7 +52,7 @@ public class GroupsFragment extends Fragment {
         myListView.setAdapter(adapter);
         myListView.setItemsCanFocus(false);
 
-        //vigia se clicaram em um item especifico da lista
+        //vigia se clicaram em um item especifico da listaa
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {

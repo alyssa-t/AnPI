@@ -1,4 +1,4 @@
-package com.ple2020pi.memoranki.ui.cards;
+package com.ple2020pi.memoranki.ui.oi;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,7 +10,7 @@ public class GroupsViewModel extends ViewModel {
 
     public GroupsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is group fragment");
+        mText.setValue("This is group fragmentt");
     }
 
     public LiveData<String> getText() {
