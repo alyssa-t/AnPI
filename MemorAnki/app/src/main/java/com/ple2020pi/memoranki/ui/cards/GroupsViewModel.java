@@ -1,4 +1,4 @@
-package com.ple2020pi.memoranki.ui.oi;
+package com.ple2020pi.memoranki.ui.cards;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

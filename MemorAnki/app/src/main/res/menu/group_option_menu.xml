@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_deleteGroup"
+        android:icon="@drawable/ic_rubbish"
+        android:title="@string/deletegroup"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_addGroup"
+        android:icon="@drawable/ic_plus"
+        android:title="@string/addgroup"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_editGroup"
+        android:icon="@drawable/ic_ink"
+        android:title="@string/editgroup"
+        app:showAsAction="ifRoom" />
+
+</menu>

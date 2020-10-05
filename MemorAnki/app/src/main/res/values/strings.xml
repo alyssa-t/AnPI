@@ -9,4 +9,7 @@
     <string name="voltar">Voltar</string>
     <string name="apagar">Apagar</string>
     <string name="text_info">TextView</string>
+    <string name="editgroup">Editar</string>
+    <string name="addgroup">Adicionar</string>
+    <string name="deletegroup">Deletar</string>
 </resources>
