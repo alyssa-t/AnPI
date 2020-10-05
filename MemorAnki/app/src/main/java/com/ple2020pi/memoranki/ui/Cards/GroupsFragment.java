@@ -1,10 +1,8 @@
-package com.ple2020pi.memoranki.ui.notifications;
+package com.ple2020pi.memoranki.ui.cards;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -23,29 +20,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.ple2020pi.memoranki.MainActivity;
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
 import com.ple2020pi.memoranki.RegisterCardActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class NotificationsFragment extends Fragment {
+public class GroupsFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private GroupsViewModel groupsViewModel;
     private boolean allowRefresh = false;
-    private android.widget.ListView myListView = null;
+    private ListView myListView = null;
     private SQLiteDatabase db;
     private OpenHelper myOpenHelper;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+        groupsViewModel =
+                ViewModelProviders.of(this).get(GroupsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
         myOpenHelper = new OpenHelper(getActivity());
         myListView = root.findViewById(R.id.listview_gerenciarGrupo);

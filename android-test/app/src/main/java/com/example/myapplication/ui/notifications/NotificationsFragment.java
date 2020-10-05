@@ -56,15 +56,8 @@ public class NotificationsFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_notifications, container, false);
         myOpenHelper = new OpenHelper(getActivity());
         myListView = root.findViewById(R.id.listview_gerenciarGrupo);
-        db = myOpenHelper.getWritableDatabase();
 
-        Cursor c = db.rawQuery("select * from mycardtb", null);
-        String[] from = {"groupName"};
-        int[] to = {android.R.id.text1};
-
-        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
-        myListView.setAdapter(adapter);
-        myListView.setItemsCanFocus(false);
+        reload();
 
         //vigia se clicaram em um item especifico da lista
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -163,6 +156,7 @@ public class NotificationsFragment extends Fragment {
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
         myListView.setAdapter(adapter);
+        myListView.setItemsCanFocus(false);
         editMode = false;
 
     }
@@ -279,7 +273,7 @@ public class NotificationsFragment extends Fragment {
         Cursor c = db.rawQuery("select * from mycardtb", null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, c, from, to, 0);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.test, c, from, to, 0);
         myListView.setAdapter(adapter);
     }
 }
