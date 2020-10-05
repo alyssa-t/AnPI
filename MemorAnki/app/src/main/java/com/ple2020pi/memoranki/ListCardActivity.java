@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,16 +42,12 @@ public class ListCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         setContentView(R.layout.activity_list_card);
 
         helper = new OpenHelper(getApplicationContext());
         Intent intent = getIntent();
-
+        toastMake("Entrei no item !!", 0 , 350);
         long id = intent.getLongExtra("KBN", -1);
-        toastMake("Ocorreu um erro", 0, 350);
-
 
     }
 
