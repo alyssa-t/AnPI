@@ -9,24 +9,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.atilika.kuromoji.TokenizerBase;
-import com.atilika.kuromoji.ipadic.Token;
-import com.atilika.kuromoji.ipadic.Tokenizer;
-
-import java.util.List;
-
 public class RegisterCardActivity extends AppCompatActivity {
-
-    Tokenizer tokenizer = new Tokenizer.Builder().mode(TokenizerBase.Mode.NORMAL).build();
 
     private OpenHelper helper;
     String kbn = "";
@@ -59,30 +48,6 @@ public class RegisterCardActivity extends AppCompatActivity {
             kbn = "add";
             btn_confirmGroupName.setText(R.string.adicionar);
         }
-
-        EditText editText = findViewById(R.id.txt_inputGroupName);
-        final TextView text = findViewById(R.id.textInfo);
-
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                text.setText("");
-                List<Token> tokens = tokenizer.tokenize(s.toString());
-
-                for (int i = 0; i < tokens.size(); i++) {
-                    String display = tokens.get(i).getBaseForm() + "(" + tokens.get(i).getReading() + ") :" + tokens.get(i).getPartOfSpeechLevel1() + "\n";
-                    text.append(display);
-                }
-            }
-        });
     }
 
     public void SaveGroupData(View view) {

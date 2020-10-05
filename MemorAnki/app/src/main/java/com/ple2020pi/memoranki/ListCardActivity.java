@@ -21,15 +21,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.atilika.kuromoji.TokenizerBase;
-import com.atilika.kuromoji.ipadic.Token;
-import com.atilika.kuromoji.ipadic.Tokenizer;
-
 import java.util.List;
 
 public class ListCardActivity extends AppCompatActivity {
-
-    Tokenizer tokenizer = new Tokenizer.Builder().mode(TokenizerBase.Mode.NORMAL).build();
 
     private OpenHelper helper;
     String kbn = "";
