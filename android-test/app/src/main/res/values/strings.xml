@@ -8,4 +8,7 @@
     <string name="adicionar">Adicionar</string>
     <string name="voltar">Voltar</string>
     <string name="apagar">Apagar</string>
+    <string name="editgroup">Editar</string>
+    <string name="addgroup">Adicionar</string>
+    <string name="deletegroup">Selecionar e apagar</string>
 </resources>
