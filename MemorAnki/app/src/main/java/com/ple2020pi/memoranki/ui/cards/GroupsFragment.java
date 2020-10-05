@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.ple2020pi.memoranki.ListCardActivity;
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
 import com.ple2020pi.memoranki.RegisterCardActivity;
@@ -56,12 +57,12 @@ public class GroupsFragment extends Fragment {
         //vigia se clicaram em um item especifico da lista
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 if (!editMode){
-                    String s1 = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
-                    Intent intent = new Intent(getActivity().getApplication(), RegisterCardActivity.class);
-                    intent.putExtra("KBN", s1);
-                    //startActivity(intent);
+                    //String s1 = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
+                    Intent intent = new Intent(getActivity().getApplication(), ListCardActivity.class);
+                    intent.putExtra("KBN", id);
+                    startActivity(intent);
                 }
 
             }
