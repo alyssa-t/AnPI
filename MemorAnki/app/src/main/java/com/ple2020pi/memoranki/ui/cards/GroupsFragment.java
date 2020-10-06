@@ -46,10 +46,10 @@ public class GroupsFragment extends Fragment {
     //gerencia listview tbm
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        editMode = false;
-        setHasOptionsMenu(true);
         groupsViewModel = ViewModelProviders.of(this).get(GroupsViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_cards, container, false);
+        editMode = false;
+        setHasOptionsMenu(true);
         myOpenHelper = new OpenHelper(getActivity());
         myListView = root.findViewById(R.id.listview_gerenciarGrupo);
 

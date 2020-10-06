@@ -7,24 +7,15 @@
     tools:context=".ui.study.StudyFragment">
 
     <ListView
-        android:id="@+id/listview_estudar"
-        android:layout_width="258dp"
-        android:layout_height="264dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/listview_gerenciarEstudo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:longClickable="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btn_estudarTudo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listview_estudar"
-        app:layout_constraintVertical_bias="0.166" />
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
