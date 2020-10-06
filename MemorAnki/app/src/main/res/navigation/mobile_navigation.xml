@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_study"
-        android:name="com.ple2020pi.memoranki.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.ple2020pi.memoranki.ui.study.StudyFragment"
+        android:label="@string/title_study"
+        tools:layout="@layout/fragment_study" />
 
     <fragment
         android:id="@+id/navigation_cards"

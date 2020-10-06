@@ -32,6 +32,7 @@ public class ListCardActivity extends AppCompatActivity {
     ListView myListView;
 
     private boolean editMode = false;
+    private String nomeTabela = "mycardtb";
 
     //comit
 
@@ -61,7 +62,7 @@ public class ListCardActivity extends AppCompatActivity {
 
     public String readGroupName(long id){
         db = myOpenHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from mycardtb where _id="+id+ ";", null);
+        Cursor cursor = db.rawQuery("select * from " + nomeTabela + " where _id="+id+ ";", null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -72,7 +73,7 @@ public class ListCardActivity extends AppCompatActivity {
 
     public void reload(){
         db = myOpenHelper.getWritableDatabase();
-        Cursor c = db.rawQuery("select * from mycardtb", null);
+        Cursor c = db.rawQuery("select * from " + nomeTabela, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, c, from, to, 0);

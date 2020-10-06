@@ -40,6 +40,7 @@ public class GroupsFragment extends Fragment {
     private SQLiteDatabase db;
     private OpenHelper myOpenHelper;
     private Menu myMenu;
+    private String nomeTabela = "mycardtb";
 
     //FUNCAO RELACIONADO A COMPOSICAO DA TELA
     //gerencia listview tbm
@@ -186,7 +187,7 @@ public class GroupsFragment extends Fragment {
                                     finalValue = checked.get(finalKey);
                                     if (finalValue){
                                         long selected = myListView.getItemIdAtPosition(finalKey);
-                                        db.delete("mycardtb", "_id=?", new String[]{String.valueOf(selected)});
+                                        db.delete(nomeTabela, "_id=?", new String[]{String.valueOf(selected)});
                                     }
                                 }
                                 toastMake("Apagado com sucesso", 0, 350);
@@ -229,7 +230,7 @@ public class GroupsFragment extends Fragment {
     //FUNCOES RELACIONADAS A EXIBICAO DA LISTA
     public void reload(){
         db = myOpenHelper.getWritableDatabase();
-        Cursor c = db.rawQuery("select * from mycardtb", null);
+        Cursor c = db.rawQuery("select * from "+ nomeTabela, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
@@ -240,7 +241,7 @@ public class GroupsFragment extends Fragment {
     }
     public void editReload(){
         db = myOpenHelper.getWritableDatabase();
-        Cursor c = db.rawQuery("select * from mycardtb", null);
+        Cursor c = db.rawQuery("select * from " + nomeTabela, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.selection_delete, c, from, to, 0);
@@ -260,7 +261,7 @@ public class GroupsFragment extends Fragment {
         SQLiteDatabase db = myOpenHelper.getReadableDatabase();
         ContentValues upvalue = new ContentValues();
         upvalue.put("groupName",newGroupName);
-        db.update("mycardtb",upvalue,"_id=?",new String[]{String.valueOf(id)});
+        db.update(nomeTabela,upvalue,"_id=?",new String[]{String.valueOf(id)});
     }
 
 }

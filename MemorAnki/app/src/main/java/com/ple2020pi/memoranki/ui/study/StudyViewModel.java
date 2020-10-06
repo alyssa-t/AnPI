@@ -1,17 +1,16 @@
-package com.ple2020pi.memoranki.ui.home;
-
+package com.ple2020pi.memoranki.ui.study;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class StudyViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public StudyViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("Estudar os selecionados");
     }
 
     public LiveData<String> getText() {

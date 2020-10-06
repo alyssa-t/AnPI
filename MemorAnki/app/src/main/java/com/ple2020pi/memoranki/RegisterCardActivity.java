@@ -22,6 +22,7 @@ public class RegisterCardActivity extends AppCompatActivity {
     String toastMessage_added = "Adicionado com sucesso";
     String toastMessage_mod = "Atualizado com sucesso";
     String toastMessage_failed = "Preencha o nome do grupo";
+    private String nomeTabela = "mycardtb";
 
     //comit
 
@@ -62,7 +63,7 @@ public class RegisterCardActivity extends AppCompatActivity {
 
         if (kbn == "add"){
             if (groupName.length() != 0){
-                db.insert("mycardtb", null, values);
+                db.insert(nomeTabela, null, values);
                 toastMake(toastMessage_added, 0 , +350);
                 txtGroupName.setText("");
             }else{
@@ -92,7 +93,7 @@ public class RegisterCardActivity extends AppCompatActivity {
 
         EditText text1 = findViewById(R.id.txt_inputGroupName);
         Cursor cursor = db.query(
-                "mycardtb",
+                nomeTabela,
                 new String[]{"groupName"},
                 "groupName = ?",
                 new String[]{read},
@@ -119,7 +120,7 @@ public class RegisterCardActivity extends AppCompatActivity {
         upvalue.put("groupName",groupName);
 
 
-        db.update("mycardtb",upvalue,"groupName=?",new String[]{read});
+        db.update(nomeTabela,upvalue,"groupName=?",new String[]{read});
     }
 
     public void DeleteCard(View view) {
@@ -135,7 +136,7 @@ public class RegisterCardActivity extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         SQLiteDatabase db = helper.getWritableDatabase();
-                        db.delete("mycardtb", "groupName=?", new String[]{kbn});
+                        db.delete(nomeTabela, "groupName=?", new String[]{kbn});
                         finish();
                     }
                 });
