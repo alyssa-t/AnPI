@@ -38,7 +38,7 @@ public class StudyFragment extends Fragment {
     private SQLiteDatabase db;
     private OpenHelper myOpenHelper;
     private Menu myMenu;
-    private Vector<Integer> selectedIds = new Vector<>();
+    private Vector<Long> selectedIds = new Vector<>();
     private String nomeTabela = "mycardtb";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -82,7 +82,7 @@ public class StudyFragment extends Fragment {
                 value = checked.get(key);
                 if (value) {
                     selected = true;
-                    selectedIds.add(key);
+                    selectedIds.add(myListView.getItemIdAtPosition(key));
                 }
             }
             if (selected){
