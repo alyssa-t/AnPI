@@ -36,6 +36,7 @@ public class GroupsFragment extends Fragment {
     private GroupsViewModel groupsViewModel;
     private boolean allowRefresh = false;
     private boolean editMode = false;
+    private boolean deleteMode = false;
     private android.widget.ListView myListView = null;
     private SQLiteDatabase db;
     private OpenHelper myOpenHelper;
@@ -49,6 +50,7 @@ public class GroupsFragment extends Fragment {
         groupsViewModel = ViewModelProviders.of(this).get(GroupsViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_cards, container, false);
         editMode = false;
+        deleteMode = false;
         setHasOptionsMenu(true);
         myOpenHelper = new OpenHelper(getActivity());
         myListView = root.findViewById(R.id.listview_gerenciarGrupo);
@@ -58,34 +60,25 @@ public class GroupsFragment extends Fragment {
         //vigia se clicaram em um item especifico da lista
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                if (!editMode){
+            public void onItemClick(AdapterView<?> parent, View view, int pos, final long id) {
+                if (!editMode && !deleteMode){
                     //String s1 = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
                     Intent intent = new Intent(getActivity().getApplication(), ListCardActivity.class);
                     intent.putExtra("KBN", id);
                     startActivity(intent);
                 }
-
-            }
-        });
-
-        //Se clicarem longo, edita o nome dos grupos.
-        myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> arg0, final View arg1, final int pos, final long id) {
-                //if (editMode){
-                //pega quem foi clicado
-                final String groupName = ((TextView) arg1.findViewById(android.R.id.text1)).getText().toString();
-                //cria campo de texto
-                final EditText input = new EditText(getActivity());
-                input.setText(groupName);
-                //cria dialog
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setCancelable(true)
-                        .setTitle("Renomear Grupo")
-                        .setView(input)
-                        .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                            @Override
+                if(editMode && !deleteMode){
+                    final String groupName = ((TextView) view.findViewById(android.R.id.text1)).getText().toString();
+                    //cria campo de texto
+                    final EditText input = new EditText(getActivity());
+                    input.setText(groupName);
+                    //cria dialog
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setCancelable(true)
+                            .setTitle("Renomear Grupo")
+                            .setView(input)
+                            .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     String newGroupName = input.getText().toString();
                                     UPData(id, newGroupName);
@@ -96,15 +89,34 @@ public class GroupsFragment extends Fragment {
                                         reload();
                                 }
                             })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                 }
                             });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                //}
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
 
+            }
+        });
+
+        //Se clicarem longo, edita o nome dos grupos.
+        myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> arg0, final View arg1, final int pos, final long id) {
+                if (!editMode){
+                    MenuItem menuEditGroup = myMenu.findItem(R.id.menu_editGroup);
+                    MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addGroup);
+                    MenuItem menuDeleteGroup = myMenu.findItem(R.id.menu_deleteGroup);
+                    deleteMode = true;
+                    menuAddGroup.setVisible(false);
+                    menuDeleteGroup.setVisible(true);
+                    menuEditGroup.setIcon(R.drawable.ic_tick);
+                    deleteReload();
+                    myListView.setChoiceMode(android.widget.ListView.CHOICE_MODE_MULTIPLE);
+                    myListView.setItemsCanFocus(false);
+                }
                 return true;
             }
         });
@@ -139,16 +151,17 @@ public class GroupsFragment extends Fragment {
             startActivity(intent);
         }
         else if (id == R.id.menu_editGroup){
-            if (editMode == false) {
+            if (!editMode && !deleteMode) {
                 editMode = true;
                 menuAddGroup.setVisible(false);
-                menuDeleteGroup.setVisible(true);
+                menuDeleteGroup.setVisible(false);
                 menuEditGroup.setIcon(R.drawable.ic_tick);
                 editReload();
-                myListView.setChoiceMode(android.widget.ListView.CHOICE_MODE_MULTIPLE);
-                myListView.setItemsCanFocus(false);
+                //myListView.setChoiceMode(android.widget.ListView.CHOICE_MODE_MULTIPLE);
+                //myListView.setItemsCanFocus(false);
             }else {
                 editMode = false;
+                deleteMode = false;
                 menuAddGroup.setVisible(true);
                 menuDeleteGroup.setVisible(false);
                 menuEditGroup.setIcon(R.drawable.ic_ink);
@@ -191,7 +204,7 @@ public class GroupsFragment extends Fragment {
                                     }
                                 }
                                 toastMake("Apagado com sucesso", 0, 350);
-                                editReload();
+                                deleteReload();
                             }
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -239,12 +252,22 @@ public class GroupsFragment extends Fragment {
         editMode = false;
 
     }
-    public void editReload(){
+    public void deleteReload(){
         db = myOpenHelper.getWritableDatabase();
         Cursor c = db.rawQuery("select * from " + nomeTabela, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.selection_delete, c, from, to, 0);
+        myListView.setAdapter(adapter);
+
+    }
+
+    public void editReload(){
+        db = myOpenHelper.getWritableDatabase();
+        Cursor c = db.rawQuery("select * from " + nomeTabela, null);
+        String[] from = {"groupName"};
+        int[] to = {android.R.id.text1};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.selection_rename, c, from, to, 0);
         myListView.setAdapter(adapter);
 
     }
