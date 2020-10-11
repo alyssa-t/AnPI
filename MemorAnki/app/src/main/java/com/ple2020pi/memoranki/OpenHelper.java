@@ -39,8 +39,8 @@ public class OpenHelper extends SQLiteOpenHelper {
                     COLUMN_NAME_CARD_MEANING + " TEXT," +
                     COLUMN_NAME_CARD_TYPE + " TEXT," +
                     COLUMN_NAME_CARD_GROUP + " INTEGER," +
-                    COLUMN_NAME_CARD_REPETITION + " TEXT," +
-                    COLUMN_NAME_CARD_LEARNING_RATE + " TEXT," +
+                    COLUMN_NAME_CARD_REPETITION + " INTEGER," +
+                    COLUMN_NAME_CARD_LEARNING_RATE + " REAL," +
                     COLUMN_NAME_CARD_LAST_DATE + " TEXT)";
 
     private static final String SQL_DELETE_GROUP_ENTRIES =
