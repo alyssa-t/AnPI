@@ -39,7 +39,7 @@ public class StudyFragment extends Fragment {
     private OpenHelper myOpenHelper;
     private Menu myMenu;
     private Vector<Long> selectedIds = new Vector<>();
-    private String nomeTabela = "mycardtb";
+    private String nomeTabela = "mygrouptb";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class StudyFragment extends Fragment {
         inflater.inflate(R.menu.study_option_menu, menu);
         myMenu = menu;
         super.onCreateOptionsMenu(menu, inflater);
+        getActivity().setTitle("Estudar");
     }
     //trata acoes quando itens do menu forem selecionadas
     @Override

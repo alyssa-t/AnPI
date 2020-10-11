@@ -32,8 +32,9 @@ public class ListCardActivity extends AppCompatActivity {
     ListView myListView;
 
     private boolean editMode = false;
-    private String nomeTabela = "mycardtb";
-
+    private String nomeTabelaGrupo = "mygrouptb";
+    private String nomeTabelaCard = "mycardtb";
+    private long GroupId;
     //comit
 
     @Override
@@ -47,8 +48,8 @@ public class ListCardActivity extends AppCompatActivity {
         myOpenHelper = new OpenHelper(getApplicationContext());
         myListView = findViewById(R.id.listview_gerenciarCard);
         Intent intent = getIntent();
-        long id = intent.getLongExtra("KBN", -1);
-        String groupName= readGroupName(id);
+        GroupId = intent.getLongExtra("KBN", -1);
+        String groupName= readGroupName(GroupId);
         setTitle(groupName);
         reload();
 
@@ -62,7 +63,7 @@ public class ListCardActivity extends AppCompatActivity {
 
     public String readGroupName(long id){
         db = myOpenHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + nomeTabela + " where _id="+id+ ";", null);
+        Cursor cursor = db.rawQuery("select * from " + nomeTabelaGrupo + " where _id="+id+ ";", null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -73,8 +74,8 @@ public class ListCardActivity extends AppCompatActivity {
 
     public void reload(){
         db = myOpenHelper.getWritableDatabase();
-        Cursor c = db.rawQuery("select * from " + nomeTabela, null);
-        String[] from = {"groupName"};
+        Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where cardGroup="+GroupId+ ";", null);
+        String[] from = {"cardName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, c, from, to, 0);
         myListView.setAdapter(adapter);

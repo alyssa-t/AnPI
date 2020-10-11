@@ -41,7 +41,7 @@ public class GroupsFragment extends Fragment {
     private SQLiteDatabase db;
     private OpenHelper myOpenHelper;
     private Menu myMenu;
-    private String nomeTabela = "mycardtb";
+    private String nomeTabela = "mygrouptb";
 
     //FUNCAO RELACIONADO A COMPOSICAO DA TELA
     //gerencia listview tbm
@@ -54,7 +54,6 @@ public class GroupsFragment extends Fragment {
         setHasOptionsMenu(true);
         myOpenHelper = new OpenHelper(getActivity());
         myListView = root.findViewById(R.id.listview_gerenciarGrupo);
-
         reload();
 
         //vigia se clicaram em um item especifico da lista
@@ -127,6 +126,7 @@ public class GroupsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState){
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Cartões");
     }
 
     //FUNCOES RELACIONADAS AO MENU

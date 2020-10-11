@@ -13,7 +13,17 @@ public class OpenHelper extends SQLiteOpenHelper {
     private static final String GROUP_TABLE_NAME = "mygrouptb";
     private static final String CARD_TABLE_NAME = "mycardtb";
     private static final String _ID = "_id";
+
     private static final String COLUMN_NAME_GROUP_NAME = "groupName";
+
+    private static final String COLUMN_NAME_CARD_NAME = "cardName";
+    private static final String COLUMN_NAME_CARD_READING = "cardReading";
+    private static final String COLUMN_NAME_CARD_MEANING = "cardMeaning";
+    private static final String COLUMN_NAME_CARD_TYPE = "cardType";
+    private static final String COLUMN_NAME_CARD_GROUP = "cardGroup";
+    private static final String COLUMN_NAME_CARD_REPETITION = "cardRepetition";
+    private static final String COLUMN_NAME_CARD_LEARNING_RATE = "cardLR";
+    private static final String COLUMN_NAME_CARD_LAST_DATE = "cardLD";
 
 
     private static final String SQL_CREATE_GROUP_ENTRIES =
@@ -24,7 +34,14 @@ public class OpenHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_CARD_ENTRIES =
             "CREATE TABLE " + CARD_TABLE_NAME + " (" +
                     _ID + " INTEGER PRIMARY KEY," +
-                    COLUMN_NAME_GROUP_NAME + " TEXT)";
+                    COLUMN_NAME_CARD_NAME + " TEXT," +
+                    COLUMN_NAME_CARD_READING + " TEXT," +
+                    COLUMN_NAME_CARD_MEANING + " TEXT," +
+                    COLUMN_NAME_CARD_TYPE + " TEXT," +
+                    COLUMN_NAME_CARD_GROUP + " INTEGER," +
+                    COLUMN_NAME_CARD_REPETITION + " TEXT," +
+                    COLUMN_NAME_CARD_LEARNING_RATE + " TEXT," +
+                    COLUMN_NAME_CARD_LAST_DATE + " TEXT)";
 
     private static final String SQL_DELETE_GROUP_ENTRIES =
             "DROP TABLE IF EXISTS " + GROUP_TABLE_NAME;
@@ -58,4 +75,5 @@ public class OpenHelper extends SQLiteOpenHelper {
     public void onDowngrade (SQLiteDatabase db, int oldVersdion, int newVersion) {
         onUpgrade(db, oldVersdion,newVersion);
     }
+
 }

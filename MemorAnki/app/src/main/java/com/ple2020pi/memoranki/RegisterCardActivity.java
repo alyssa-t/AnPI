@@ -22,7 +22,7 @@ public class RegisterCardActivity extends AppCompatActivity {
     String toastMessage_added = "Adicionado com sucesso";
     String toastMessage_mod = "Atualizado com sucesso";
     String toastMessage_failed = "Preencha o nome do grupo";
-    private String nomeTabela = "mycardtb";
+    private String nomeTabela = "mygrouptb";
 
     //comit
 
