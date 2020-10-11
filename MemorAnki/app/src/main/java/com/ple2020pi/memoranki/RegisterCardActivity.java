@@ -15,6 +15,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RegisterCardActivity extends AppCompatActivity {
 
     private OpenHelper helper;
@@ -70,6 +74,10 @@ public class RegisterCardActivity extends AppCompatActivity {
         values.put("cardReading", cardReading);
         values.put("cardMeaning", cardMeaning);
         values.put("cardGroup", groupID);
+        values.put("cardType", "");
+        values.put("cardRepetition", 0);
+        values.put("cardLR", 0);
+        values.put("cardLD", getNowDate());
 
         if (kbn == "add"){
             if (cardName.length() != 0 && cardMeaning.length() != 0){
@@ -161,6 +169,12 @@ public class RegisterCardActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public static String getNowDate(){
+        final DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        final Date date = new Date(System.currentTimeMillis());
+        return df.format(date);
     }
 
     public void Return(View view) {
