@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
-import com.ple2020pi.memoranki.RegisterCardActivity;
+import com.ple2020pi.memoranki.RegisterGroupActivity;
 import com.ple2020pi.memoranki.ui.cards.GroupsViewModel;
 
 import java.util.Vector;

@@ -29,7 +29,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.ple2020pi.memoranki.ListCardActivity;
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
-import com.ple2020pi.memoranki.RegisterCardActivity;
+import com.ple2020pi.memoranki.RegisterGroupActivity;
 
 public class GroupsFragment extends Fragment {
 
@@ -41,7 +41,8 @@ public class GroupsFragment extends Fragment {
     private SQLiteDatabase db;
     private OpenHelper myOpenHelper;
     private Menu myMenu;
-    private String nomeTabela = "mygrouptb";
+    private String nomeTabelaGrupo = "mygrouptb";
+    private String nomeTabelaCard = "mycardtb";
 
     //FUNCAO RELACIONADO A COMPOSICAO DA TELA
     //gerencia listview tbm
@@ -96,7 +97,6 @@ public class GroupsFragment extends Fragment {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-
             }
         });
 
@@ -146,7 +146,7 @@ public class GroupsFragment extends Fragment {
         MenuItem menuDeleteGroup = myMenu.findItem(R.id.menu_deleteGroup);
 
         if(id == R.id.menu_addGroup){
-            Intent intent = new Intent(getActivity().getApplication(), RegisterCardActivity.class);
+            Intent intent = new Intent(getActivity().getApplication(), RegisterGroupActivity.class);
             intent.putExtra("KBN", "");
             startActivity(intent);
         }
@@ -200,7 +200,8 @@ public class GroupsFragment extends Fragment {
                                     finalValue = checked.get(finalKey);
                                     if (finalValue){
                                         long selected = myListView.getItemIdAtPosition(finalKey);
-                                        db.delete(nomeTabela, "_id=?", new String[]{String.valueOf(selected)});
+                                        db.delete(nomeTabelaCard, "cardGroup=?", new String[]{String.valueOf(selected)});
+                                        db.delete(nomeTabelaGrupo, "_id=?", new String[]{String.valueOf(selected)});
                                     }
                                 }
                                 toastMake("Apagado com sucesso", 0, 350);
@@ -243,7 +244,7 @@ public class GroupsFragment extends Fragment {
     //FUNCOES RELACIONADAS A EXIBICAO DA LISTA
     public void reload(){
         db = myOpenHelper.getWritableDatabase();
-        Cursor c = db.rawQuery("select * from "+ nomeTabela, null);
+        Cursor c = db.rawQuery("select * from "+ nomeTabelaGrupo, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
@@ -254,7 +255,7 @@ public class GroupsFragment extends Fragment {
     }
     public void deleteReload(){
         db = myOpenHelper.getWritableDatabase();
-        Cursor c = db.rawQuery("select * from " + nomeTabela, null);
+        Cursor c = db.rawQuery("select * from " + nomeTabelaGrupo, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.selection_delete, c, from, to, 0);
@@ -264,7 +265,7 @@ public class GroupsFragment extends Fragment {
 
     public void editReload(){
         db = myOpenHelper.getWritableDatabase();
-        Cursor c = db.rawQuery("select * from " + nomeTabela, null);
+        Cursor c = db.rawQuery("select * from " + nomeTabelaGrupo, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.selection_rename, c, from, to, 0);
@@ -284,7 +285,7 @@ public class GroupsFragment extends Fragment {
         SQLiteDatabase db = myOpenHelper.getReadableDatabase();
         ContentValues upvalue = new ContentValues();
         upvalue.put("groupName",newGroupName);
-        db.update(nomeTabela,upvalue,"_id=?",new String[]{String.valueOf(id)});
+        db.update(nomeTabelaGrupo,upvalue,"_id=?",new String[]{String.valueOf(id)});
     }
 
 }

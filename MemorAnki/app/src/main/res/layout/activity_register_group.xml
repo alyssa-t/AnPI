@@ -7,57 +7,30 @@
     tools:context=".RegisterCardActivity">
 
     <EditText
-        android:id="@+id/txt_inputCardName"
+        android:id="@+id/txt_inputGroupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
-        android:hint="Palavra a ser decorada"
+        android:hint="@string/nome_do_novo_grupo"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txt_inputCardMeaning"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txt_inputCardReading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="A leitura da palavra"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/btn_confirmCardName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_inputCardMeaning" />
-
-    <EditText
-        android:id="@+id/txt_inputCardMeaning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="Tradução da palavra"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txt_inputCardReading"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_inputCardName" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.282" />
 
     <Button
-        android:id="@+id/btn_confirmCardName"
+        android:id="@+id/btn_confirmGroupName"
         android:layout_width="129dp"
         android:layout_height="61dp"
         android:onClick="SaveGroupData"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_inputCardName"
-        app:layout_constraintVertical_bias="0.451" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_inputGroupName"
+        app:layout_constraintVertical_bias="0.256" />
 
     <Button
         android:id="@+id/btn_return"
@@ -69,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_confirmCardName" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_confirmGroupName" />
 
     <Button
         android:id="@+id/btn_delete"
@@ -82,6 +55,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_confirmCardName" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_confirmGroupName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

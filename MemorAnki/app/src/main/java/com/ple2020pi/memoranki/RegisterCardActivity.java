@@ -1,8 +1,5 @@
 package com.ple2020pi.memoranki;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,14 +12,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 public class RegisterCardActivity extends AppCompatActivity {
 
     private OpenHelper helper;
+    private SQLiteDatabase db;
     String kbn = "";
     String toastMessage_added = "Adicionado com sucesso";
     String toastMessage_mod = "Atualizado com sucesso";
-    String toastMessage_failed = "Preencha o nome do grupo";
-    private String nomeTabela = "mygrouptb";
+    String toastMessage_failed = "Preencha a palavra e o significado";
+    private String nomeTabela = "mycardtb";
+    private Long groupID;
+    private Long cardID;
 
     //comit
 
@@ -34,46 +37,55 @@ public class RegisterCardActivity extends AppCompatActivity {
         helper = new OpenHelper(getApplicationContext());
         Intent intent = getIntent();
 
-        String KBN = intent.getStringExtra("KBN");
-        Button btn_confirmGroupName = findViewById(R.id.btn_confirmGroupName);
+        cardID = intent.getLongExtra("CARD_ID", -1);
+        groupID = intent.getLongExtra("GROUP_ID", -1);
+        Button btn_confirmGroupName = findViewById(R.id.btn_confirmCardName);
         Button btn_delete = findViewById(R.id.btn_delete);
 
-        if(KBN.length() != 0){
-            kbn = KBN;
-            btn_confirmGroupName.setText(R.string.atualizar);
-            btn_delete.setVisibility(View.VISIBLE);
-            readDate(KBN);
-
-        }
-        else{
+        if(cardID == -1){
             kbn = "add";
             btn_confirmGroupName.setText(R.string.adicionar);
+        }
+        else{
+            kbn = "atualizar";
+            btn_confirmGroupName.setText(R.string.atualizar);
+            btn_delete.setVisibility(View.VISIBLE);
+            readDate(cardID);
         }
     }
 
     public void SaveGroupData(View view) {
-        SQLiteDatabase db = helper.getWritableDatabase();
+        db = helper.getWritableDatabase();
 
-        EditText txtGroupName = findViewById(R.id.txt_inputGroupName);
+        EditText txtCardName = findViewById(R.id.txt_inputCardName);
+        EditText txtCardReading = findViewById(R.id.txt_inputCardReading);
+        EditText txtCardMeaning = findViewById(R.id.txt_inputCardMeaning);
 
-        String groupName = txtGroupName.getText().toString();
+        String cardName = txtCardName.getText().toString();
+        String cardReading = txtCardReading.getText().toString();
+        String cardMeaning = txtCardMeaning.getText().toString();
 
         ContentValues values = new ContentValues();
-        values.put("groupName", groupName);
+        values.put("cardName", cardName);
+        values.put("cardReading", cardReading);
+        values.put("cardMeaning", cardMeaning);
+        values.put("cardGroup", groupID);
 
         if (kbn == "add"){
-            if (groupName.length() != 0){
+            if (cardName.length() != 0 && cardMeaning.length() != 0){
                 db.insert(nomeTabela, null, values);
                 toastMake(toastMessage_added, 0 , +350);
-                txtGroupName.setText("");
+                txtCardName.setText("");
+                txtCardReading.setText("");
+                txtCardMeaning.setText("");
             }else{
                 toastMake(toastMessage_failed, 0, +350);
             }
         }
         //atualizarr
         else{
-            if (groupName.length() != 0){
-                UPData(kbn);
+            if (cardName.length() != 0 && cardMeaning.length() != 0){
+                UPData(cardID);
                 toastMake(toastMessage_mod, 0 , +350);
                 finish();
             }else{
@@ -88,55 +100,56 @@ public class RegisterCardActivity extends AppCompatActivity {
         toast.show();
     }
 
-    public void readDate(String read){
-        SQLiteDatabase db = helper.getReadableDatabase();
+    public void readDate(Long id){
+        db = helper.getReadableDatabase();
 
-        EditText text1 = findViewById(R.id.txt_inputGroupName);
-        Cursor cursor = db.query(
-                nomeTabela,
-                new String[]{"groupName"},
-                "groupName = ?",
-                new String[]{read},
-                null,null,null
-        );
+        EditText txtCardName = findViewById(R.id.txt_inputCardName);
+        EditText txtCardReading = findViewById(R.id.txt_inputCardReading);
+        EditText txtCardMeaning = findViewById(R.id.txt_inputCardMeaning);
+
+        Cursor cursor = db.rawQuery("select * from " + nomeTabela + " WHERE _id=" + id + ";", null);
         cursor.moveToFirst();
-
         for(int i = 0; i< cursor.getCount(); i++){
-            text1.setText(cursor.getString(0));
-
+            txtCardName.setText(cursor.getString(cursor.getColumnIndex("cardName")));
+            txtCardReading.setText(cursor.getString(cursor.getColumnIndex("cardReading")));
+            txtCardMeaning.setText(cursor.getString(cursor.getColumnIndex("cardMeaning")));
         }
 
         cursor.close();
     }
-    public void UPData(String read){
-        SQLiteDatabase db = helper.getReadableDatabase();
+    public void UPData(long id){
 
-        EditText txt1 = findViewById(R.id.txt_inputGroupName);
+        db = helper.getReadableDatabase();
 
-        String groupName = txt1.getText().toString();
+        EditText txtCardName = findViewById(R.id.txt_inputCardName);
+        EditText txtCardReading = findViewById(R.id.txt_inputCardReading);
+        EditText txtCardMeaning = findViewById(R.id.txt_inputCardMeaning);
 
+        String cardName = txtCardName.getText().toString();
+        String cardReading = txtCardReading.getText().toString();
+        String cardMeaning = txtCardMeaning.getText().toString();
 
         ContentValues upvalue = new ContentValues();
-        upvalue.put("groupName",groupName);
+        upvalue.put("cardName",cardName);
+        upvalue.put("cardReading", cardReading);
+        upvalue.put("cardMeaning", cardMeaning);
 
-
-        db.update(nomeTabela,upvalue,"groupName=?",new String[]{read});
+        db.update(nomeTabela,upvalue,"_id=?",new String[]{String.valueOf(id)});
     }
 
     public void DeleteCard(View view) {
 
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle("Apagar grupo");
-        builder.setMessage("Gostaria de apagar esse grupo?");
+        builder.setTitle("Apagar cartão");
+        builder.setMessage("Gostaria de apagar esse cartão?");
         builder.setPositiveButton("Sim",
                 new DialogInterface.OnClickListener() {
                     @Override
 
                     public void onClick(DialogInterface dialog, int which) {
                         SQLiteDatabase db = helper.getWritableDatabase();
-                        db.delete(nomeTabela, "groupName=?", new String[]{kbn});
+                        db.delete(nomeTabela, "_id=?", new String[]{String.valueOf(cardID)});
                         finish();
                     }
                 });

@@ -1,29 +1,27 @@
 package com.ple2020pi.memoranki;
 
-import android.content.ContentValues;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.List;
+import com.ple2020pi.memoranki.ui.cards.GroupsViewModel;
 
 public class ListCardActivity extends AppCompatActivity {
 
@@ -35,6 +33,7 @@ public class ListCardActivity extends AppCompatActivity {
     private String nomeTabelaGrupo = "mygrouptb";
     private String nomeTabelaCard = "mycardtb";
     private long GroupId;
+    private Menu myMenu;
     //comit
 
     @Override
@@ -49,12 +48,43 @@ public class ListCardActivity extends AppCompatActivity {
         myListView = findViewById(R.id.listview_gerenciarCard);
         Intent intent = getIntent();
         GroupId = intent.getLongExtra("KBN", -1);
-        String groupName= readGroupName(GroupId);
+        String groupName = readGroupName(GroupId);
         setTitle(groupName);
         reload();
 
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplication(), RegisterCardActivity.class);
+                intent.putExtra("CARD_ID", id);
+                intent.putExtra("GROUP_ID", GroupId);
+                startActivity(intent);
+            }
+        });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        myMenu = menu;
+        inflater.inflate(R.menu.listcard_option_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        //MenuItem menuEditGroup = myMenu.findItem(R.id.menu_deletecard);
+        //MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addcard);
+        if(id == R.id.menu_addcard){
+            Intent intent = new Intent(getApplication(), RegisterCardActivity.class);
+            intent.putExtra("GROUP_ID", GroupId);
+            intent.putExtra("CARD_ID", "");
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void toastMake(String message, int x, int y) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, x, y);
@@ -72,6 +102,12 @@ public class ListCardActivity extends AppCompatActivity {
         return groupName;
     }
 
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        reload();
+    }
+
     public void reload(){
         db = myOpenHelper.getWritableDatabase();
         Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where cardGroup="+GroupId+ ";", null);
@@ -87,4 +123,6 @@ public class ListCardActivity extends AppCompatActivity {
     public void Return() {
         finish();
     }
+
+
 }
