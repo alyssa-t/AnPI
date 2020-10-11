@@ -9,7 +9,7 @@ public class OpenHelper extends SQLiteOpenHelper {
     //versao database
     private static final int DATABASE_VERSION = 1;
 
-    private static final String DATABASE_NAME = "MyCardDB_test.db";
+    private static final String DATABASE_NAME = "MyDB.db";
     private static final String GROUP_TABLE_NAME = "mygrouptb";
     private static final String CARD_TABLE_NAME = "mycardtb";
     private static final String _ID = "_id";
