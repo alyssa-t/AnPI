@@ -11,9 +11,9 @@
 
     <style name="DarkTheme" parent="ThemeOverlay.AppCompat.Dark">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/DarkModeColorButton</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/DarkModeColorBg</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/DarkModeColorText</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
 
     </style>
