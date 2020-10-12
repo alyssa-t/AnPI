@@ -1,14 +1,14 @@
-package com.ple2020pi.memoranki.ui.cards;
+package com.ple2020pi.memoranki.ui.preference;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GroupsViewModel extends ViewModel {
+public class PreferenceViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GroupsViewModel() {
+    public PreferenceViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is group fragmentt");
     }

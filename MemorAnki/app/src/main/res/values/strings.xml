@@ -12,4 +12,6 @@
     <string name="addgroup">Adicionar</string>
     <string name="deletegroup">Deletar</string>
     <string name="estudar_selecionados">Estudar selecionados</string>
+    <string name="change_theme">Mudar tema</string>
+    <string name="options">Opções</string>
 </resources>

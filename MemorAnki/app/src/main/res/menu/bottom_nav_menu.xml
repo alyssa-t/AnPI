@@ -11,5 +11,9 @@
         android:icon="@drawable/ic_label"
         android:title="@string/title_notifications" />
 
+    <item
+        android:id="@+id/navigation_preference"
+        android:icon="@drawable/ic_preference"
+        android:title="@string/options" />
 
 </menu>
