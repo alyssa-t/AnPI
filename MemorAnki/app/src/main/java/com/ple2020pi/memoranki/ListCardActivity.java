@@ -30,6 +30,7 @@ public class ListCardActivity extends AppCompatActivity {
     ListView myListView;
 
     private boolean editMode = false;
+    private boolean deleteMode = false;
     private String nomeTabelaGrupo = "mygrouptb";
     private String nomeTabelaCard = "mycardtb";
     private long GroupId;
@@ -55,10 +56,30 @@ public class ListCardActivity extends AppCompatActivity {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplication(), RegisterCardActivity.class);
-                intent.putExtra("CARD_ID", id);
-                intent.putExtra("GROUP_ID", GroupId);
-                startActivity(intent);
+                if (!deleteMode) {
+                    Intent intent = new Intent(getApplication(), RegisterCardActivity.class);
+                    intent.putExtra("CARD_ID", id);
+                    intent.putExtra("GROUP_ID", GroupId);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> arg0, final View arg1, final int pos, final long id) {
+                if (!deleteMode){
+                    MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addcard);
+                    MenuItem menuDeleteGroup = myMenu.findItem(R.id.menu_deletecard);
+                    deleteMode = true;
+                    menuAddGroup.setVisible(true);
+                    menuAddGroup.setIcon(R.drawable.ic_tick);
+                    menuDeleteGroup.setVisible(true);
+                    deleteReload();
+                    myListView.setChoiceMode(android.widget.ListView.CHOICE_MODE_MULTIPLE);
+                    myListView.setItemsCanFocus(false);
+                }
+                return true;
             }
         });
     }
@@ -78,10 +99,67 @@ public class ListCardActivity extends AppCompatActivity {
         //MenuItem menuEditGroup = myMenu.findItem(R.id.menu_deletecard);
         //MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addcard);
         if(id == R.id.menu_addcard){
-            Intent intent = new Intent(getApplication(), RegisterCardActivity.class);
-            intent.putExtra("GROUP_ID", GroupId);
-            intent.putExtra("CARD_ID", "");
-            startActivity(intent);
+            if(!deleteMode){
+                Intent intent = new Intent(getApplication(), RegisterCardActivity.class);
+                intent.putExtra("GROUP_ID", GroupId);
+                intent.putExtra("CARD_ID", "");
+                startActivity(intent);
+            }
+            else{
+                MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addcard);
+                menuAddGroup.setIcon(R.drawable.ic_plus);
+                deleteMode = false;
+                reload();
+            }
+
+        }
+        else if (id == R.id.menu_deletecard) {
+            SparseBooleanArray checked = myListView.getCheckedItemPositions();
+            final boolean[] selected = {false};
+            int size = checked.size(); // number of name-value pairs in the array
+            //se tiver algo selecionado
+            final int[] key = new int[1];
+            final boolean[] value = new boolean[1];
+            for (int i = 0; i < size; i++) {
+                key[0] = checked.keyAt(i);
+                value[0] = checked.get(key[0]);
+                if (value[0]) {
+                    selected[0] = true;
+                    break;
+                }
+            }
+            if (selected[0]) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(true)
+                        .setTitle("Apagar grupo")
+                        .setMessage("Tem certeza que quer apagar os cartões selecionados?")
+                        .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SparseBooleanArray checked = myListView.getCheckedItemPositions();
+                                int finalKey;
+                                boolean finalValue;
+                                int size = checked.size();
+                                for (int i = 0; i < size; i++) {
+                                    finalKey = checked.keyAt(i);
+                                    finalValue = checked.get(finalKey);
+                                    if (finalValue) {
+                                        long selected = myListView.getItemIdAtPosition(finalKey);
+                                        db.delete(nomeTabelaCard, "_id=?", new String[]{String.valueOf(selected)});
+                                    }
+                                }
+                                toastMake("Apagado com sucesso", 0, 350);
+                                deleteReload();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -117,6 +195,16 @@ public class ListCardActivity extends AppCompatActivity {
         myListView.setAdapter(adapter);
         myListView.setItemsCanFocus(false);
         editMode = false;
+
+    }
+
+    public void deleteReload(){
+        db = myOpenHelper.getWritableDatabase();
+        Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where cardGroup="+GroupId+ ";", null);
+        String[] from = {"cardName"};
+        int[] to = {android.R.id.text1};
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.selection_delete, c, from, to, 0);
+        myListView.setAdapter(adapter);
 
     }
 
