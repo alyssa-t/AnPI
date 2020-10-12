@@ -26,9 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         data = getSharedPreferences( "Config", MODE_PRIVATE);
         editor = data.edit();
-
         lightMode = data.getBoolean("lightMode", true);
-
         if (lightMode)
             setTheme(R.style.LightTheme);
         else

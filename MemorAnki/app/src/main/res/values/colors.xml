@@ -3,6 +3,9 @@
     <color name="colorPrimary">#0570AB</color>
     <color name="colorPrimaryDark">#19376D</color>
     <color name="colorAccent">#C93758</color>
+    <color name="LightModeColorBg">#FFFFFF</color>
     <color name="DarkModeColorBg">#373434</color>
     <color name="DarkModeColorText">#CCAE41</color>
+    <color name="DarkModeColorButton">#455267</color>
+
 </resources>

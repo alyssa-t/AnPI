@@ -52,27 +52,25 @@ public class PreferenceFragment extends Fragment {
         final Button btnChangeTheme = root.findViewById(R.id.btn_changeTheme);
         data = getActivity().getSharedPreferences( "Config", MODE_PRIVATE);
         editor = data.edit();
-
+        lightMode = data.getBoolean("lightMode", true);
         if (lightMode)
             btnChangeTheme.setText("Mudar para tema escuro");
         else
             btnChangeTheme.setText("Mudar para tema claro");
 
-
         btnChangeTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lightMode = data.getBoolean("lightMode", true);
-
                 if(lightMode){
                     editor.putBoolean("lightMode", false);
                     editor.apply();
-                    btnChangeTheme.setText("Mudar para tema claro");
+                    btnChangeTheme.setText("Mudar para tema escuro");
+
                 }
                 else{
                     editor.putBoolean("lightMode", true);
                     editor.apply();
-                    btnChangeTheme.setText("Mudar para tema escuro");
+                    btnChangeTheme.setText("Mudar para tema claro");
                 }
 
                 Intent intent = new Intent(getActivity().getApplication(), MainActivity.class);

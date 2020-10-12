@@ -19,9 +19,6 @@
     android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
     android:ellipsize="marquee"
     android:gravity="center_vertical"
-    android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingStart="12dip"
-    android:paddingEnd="7dip"
-    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-    android:textColor="?android:attr/textColorAlertDialogListItem" />
+    android:paddingEnd="7dip" />
 

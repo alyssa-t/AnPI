@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_study">
 
+
     <fragment
         android:id="@+id/navigation_study"
         android:name="com.ple2020pi.memoranki.ui.study.StudyFragment"

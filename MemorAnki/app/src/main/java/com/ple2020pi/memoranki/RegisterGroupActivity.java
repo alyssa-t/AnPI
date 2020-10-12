@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -24,11 +25,22 @@ public class RegisterGroupActivity extends AppCompatActivity {
     String toastMessage_failed = "Preencha o nome do grupo";
     private String nomeTabela = "mygrouptb";
 
+    private SharedPreferences data;
+    private SharedPreferences.Editor editor;
+    private boolean lightMode;
+
     //comit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        data = getSharedPreferences( "Config", MODE_PRIVATE);
+        editor = data.edit();
+        lightMode = data.getBoolean("lightMode", true);
+        if (lightMode)
+            setTheme(R.style.LightTheme);
+        else
+            setTheme(R.style.DarkTheme);
         setContentView(R.layout.activity_register_group);
 
         helper = new OpenHelper(getApplicationContext());

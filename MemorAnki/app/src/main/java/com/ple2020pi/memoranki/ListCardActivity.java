@@ -3,6 +3,7 @@ package com.ple2020pi.memoranki;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -35,11 +36,22 @@ public class ListCardActivity extends AppCompatActivity {
     private String nomeTabelaCard = "mycardtb";
     private long GroupId;
     private Menu myMenu;
+
+    private SharedPreferences data;
+    private SharedPreferences.Editor editor;
+    private boolean lightMode;
     //comit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        data = getSharedPreferences( "Config", MODE_PRIVATE);
+        editor = data.edit();
+        lightMode = data.getBoolean("lightMode", true);
+        if (lightMode)
+            setTheme(R.style.LightTheme);
+        else
+            setTheme(R.style.DarkTheme);
         setContentView(R.layout.activity_list_card);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
