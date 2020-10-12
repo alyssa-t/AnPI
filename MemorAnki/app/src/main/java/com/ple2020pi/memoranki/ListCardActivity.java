@@ -89,6 +89,7 @@ public class ListCardActivity extends AppCompatActivity {
                     menuDeleteGroup.setVisible(true);
                     deleteReload();
                     myListView.setChoiceMode(android.widget.ListView.CHOICE_MODE_MULTIPLE);
+                    myListView.setItemChecked(pos, true);
                     myListView.setItemsCanFocus(false);
                 }
                 return true;

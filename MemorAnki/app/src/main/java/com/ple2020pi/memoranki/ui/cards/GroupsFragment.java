@@ -114,6 +114,7 @@ public class GroupsFragment extends Fragment {
                     menuEditGroup.setIcon(R.drawable.ic_tick);
                     deleteReload();
                     myListView.setChoiceMode(android.widget.ListView.CHOICE_MODE_MULTIPLE);
+                    myListView.setItemChecked(pos, true);
                     myListView.setItemsCanFocus(false);
                 }
                 return true;
