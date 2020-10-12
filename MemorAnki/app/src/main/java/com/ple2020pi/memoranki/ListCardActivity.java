@@ -16,13 +16,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.ple2020pi.memoranki.ui.cards.GroupsViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ListCardActivity extends AppCompatActivity {
 
@@ -94,6 +93,15 @@ public class ListCardActivity extends AppCompatActivity {
                 }
                 return true;
             }
+        });
+
+        BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.nav_view_return);
+        navigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(final MenuItem menuItem) {
+                finish();
+            }
+
         });
     }
 

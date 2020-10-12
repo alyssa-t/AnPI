@@ -55,6 +55,7 @@ public class GroupsFragment extends Fragment {
         setHasOptionsMenu(true);
         myOpenHelper = new OpenHelper(getActivity());
         myListView = root.findViewById(R.id.listview_gerenciarGrupo);
+
         reload();
 
         //vigia se clicaram em um item especifico da lista
