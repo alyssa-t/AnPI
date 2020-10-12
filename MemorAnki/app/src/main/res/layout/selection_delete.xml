@@ -19,6 +19,5 @@
     android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
     android:ellipsize="marquee"
     android:gravity="center_vertical"
-    android:paddingStart="12dip"
-    android:paddingEnd="7dip" />
+    android:height="50dp" />
 

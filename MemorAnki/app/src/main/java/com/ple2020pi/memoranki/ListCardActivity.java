@@ -203,7 +203,7 @@ public class ListCardActivity extends AppCompatActivity {
         Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where cardGroup="+GroupId+ ";", null);
         String[] from = {"cardName"};
         int[] to = {android.R.id.text1};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, c, from, to, 0);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.selection_list, c, from, to, 0);
         myListView.setAdapter(adapter);
         myListView.setItemsCanFocus(false);
         editMode = false;

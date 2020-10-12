@@ -247,7 +247,7 @@ public class GroupsFragment extends Fragment {
         Cursor c = db.rawQuery("select * from "+ nomeTabelaGrupo, null);
         String[] from = {"groupName"};
         int[] to = {android.R.id.text1};
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1, c, from, to, 0);
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), R.layout.selection_list, c, from, to, 0);
         myListView.setAdapter(adapter);
         myListView.setItemsCanFocus(false);
         editMode = false;
