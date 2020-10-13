@@ -26,6 +26,9 @@ public class TestActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private boolean lightMode;
     private String selectedIds[];
+    private SQLiteDatabase db;
+    private String nomeTabelaCard = "mycardtb";
+    private OpenHelper myOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +46,22 @@ public class TestActivity extends AppCompatActivity {
         selectedIds = intent.getStringArrayExtra("selectedGroupIds");
         toastMake(selectedIds[0] , 0, 350);
 
+
+
     }
 
     private void toastMake(String message, int x, int y) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, x, y);
         toast.show();
+    }
+
+    private void loadCards(){
+        db = myOpenHelper.getWritableDatabase();
+        for(int i=0; i<selectedIds.length; i++){
+            Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where cardGroup="+selectedIds[i]+ ";", null);
+
+        }
+
     }
 }

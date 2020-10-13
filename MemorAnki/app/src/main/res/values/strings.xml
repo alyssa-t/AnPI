@@ -18,4 +18,6 @@
     <string name="medium">Médio</string>
     <string name="easy">Fácil</string>
     <string name="veryEasy">Muito fácil</string>
+    <string name="showAnswer">Mostrar Resposta</string>
+    <string name="studyHint">Escolha o que achou da palavra para seguir estudando</string>
 </resources>
