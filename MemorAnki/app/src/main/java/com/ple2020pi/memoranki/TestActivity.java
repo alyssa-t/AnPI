@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,9 +47,44 @@ public class TestActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         selectedIds = intent.getStringArrayExtra("selectedGroupIds");
-        toastMake(selectedIds[0] , 0, 350);
+
+        final TextView txt_meaning = findViewById(R.id.txt_meaning);
+        final TextView txt_reading = findViewById(R.id.txt_reading);
+        txt_reading.setVisibility(View.GONE);
+        txt_meaning.setVisibility(View.GONE);
 
 
+        BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.nav_view_return);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch (id){
+                    case R.id.navigation_difficult:
+                        toastMake("MUITO DIFICILLL", 0, 350);
+                        break;
+                    case R.id.navigation_medium:
+                        toastMake("Meh", 0, 350);
+                        break;
+                    case R.id.navigation_easy:
+                        toastMake("IZI", 0, 350);
+                        break;
+                }
+                txt_reading.setVisibility(View.GONE);
+                txt_meaning.setVisibility(View.GONE);
+                return true;
+            }
+
+        });
+
+        Button btn_showAnswer = findViewById(R.id.showAnswer);
+        btn_showAnswer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txt_reading.setVisibility(View.VISIBLE);
+                txt_meaning.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
