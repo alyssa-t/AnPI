@@ -24,9 +24,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.ple2020pi.memoranki.ListCardActivity;
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
 import com.ple2020pi.memoranki.RegisterGroupActivity;
+import com.ple2020pi.memoranki.TestActivity;
 import com.ple2020pi.memoranki.ui.cards.GroupsViewModel;
 
 import java.util.Vector;
@@ -38,7 +40,7 @@ public class StudyFragment extends Fragment {
     private SQLiteDatabase db;
     private OpenHelper myOpenHelper;
     private Menu myMenu;
-    private Vector<Long> selectedIds = new Vector<>();
+    private Vector<String> selectedIds = new Vector<>();
     private String nomeTabela = "mygrouptb";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,25 +71,30 @@ public class StudyFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
+        String selectedIds_string[] = {};
         MenuItem menuEditGroup = myMenu.findItem(R.id.menu_start);
+        SparseBooleanArray checked = myListView.getCheckedItemPositions();
+        boolean selected = false;
+        int size = checked.size(); // number of name-value pairs in the array
+        //se tiver algo selecionado
+        int key ;
+        boolean value ;
 
         if(id == R.id.menu_start) {
-            SparseBooleanArray checked = myListView.getCheckedItemPositions();
-            boolean selected = false;
-            int size = checked.size(); // number of name-value pairs in the array
-            //se tiver algo selecionado
-            int key ;
-            boolean value ;
             for (int i = 0; i < size; i++) {
                 key = checked.keyAt(i);
                 value = checked.get(key);
                 if (value) {
                     selected = true;
-                    selectedIds.add(myListView.getItemIdAtPosition(key));
+                    selectedIds.add(String.valueOf(myListView.getItemIdAtPosition(key)));
                 }
             }
+
             if (selected){
-                toastMake("Itens selecionados" , 0, 350);
+                selectedIds_string= selectedIds.toArray(new String[0]);
+                Intent intent = new Intent(getContext(), TestActivity.class);
+                intent.putExtra("selectedGroupIds", selectedIds_string);
+                startActivity(intent);
             }
             else{
                 toastMake("Selecione pelo menos um grupo a ser estudado", 0, 350);

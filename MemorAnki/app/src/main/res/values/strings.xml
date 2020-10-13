@@ -14,4 +14,8 @@
     <string name="estudar_selecionados">Estudar selecionados</string>
     <string name="change_theme">Mudar tema</string>
     <string name="options">Opções</string>
+    <string name="difficult">Difícil</string>
+    <string name="medium">Médio</string>
+    <string name="easy">Fácil</string>
+    <string name="veryEasy">Muito fácil</string>
 </resources>
