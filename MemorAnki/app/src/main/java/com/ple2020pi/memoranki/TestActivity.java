@@ -34,7 +34,6 @@ import java.util.Vector;
 
 public class TestActivity extends AppCompatActivity {
     private SharedPreferences data;
-    private SharedPreferences.Editor editor;
     private boolean lightMode;
     private String selectedIds[];
     private String nomeTabelaCard = "mycardtb";
@@ -44,26 +43,7 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = getSharedPreferences( "Config", MODE_PRIVATE);
-        editor = data.edit();
-        lightMode = data.getBoolean("lightMode", true);
-        if (lightMode)
-            setTheme(R.style.LightTheme);
-        else
-            setTheme(R.style.DarkTheme);
-        setContentView(R.layout.activity_test);
-
-        Intent intent = getIntent();
-        selectedIds = intent.getStringArrayExtra("selectedGroupIds");
-
-        final TextView txt_word = findViewById(R.id.txt_word);
-        final TextView txt_meaning = findViewById(R.id.txt_meaning);
-        final TextView txt_reading = findViewById(R.id.txt_reading);
-        final Button btn_showAnswer = findViewById(R.id.showAnswer);
-        txt_reading.setVisibility(View.GONE);
-        txt_meaning.setVisibility(View.GONE);
-
-        /*------le os cards do sql coloca num vetor----------*/
+        //declarar variaveis utilizados aq
         myOpenHelper = new OpenHelper(getApplicationContext());
         db = myOpenHelper.getWritableDatabase();
         final List<String> words = new ArrayList<String>();
@@ -72,6 +52,36 @@ public class TestActivity extends AppCompatActivity {
         final List<String>  cardId = new ArrayList<String>();
         List<Integer> indices = new ArrayList<Integer>();
         int numCards = 0;
+        int counter; //parece que nao tem uso, mas tem !!!
+
+        /*-------retomar configuracoes iniciais da tela do config-----*/
+        data = getSharedPreferences( "Config", MODE_PRIVATE);
+        lightMode = data.getBoolean("lightMode", true);
+        if (lightMode)
+            setTheme(R.style.LightTheme);
+        else
+            setTheme(R.style.DarkTheme);
+        /*----fim da configuracao----*/
+
+        //monta layout baseado no activity_test.xml
+        setContentView(R.layout.activity_test);
+
+        //recebe ids dos grupos selecionados
+        Intent intent = getIntent();
+        selectedIds = intent.getStringArrayExtra("selectedGroupIds");
+
+        /*declarar variavel que depende do layout*/
+        final TextView txt_word = findViewById(R.id.txt_word);
+        final TextView txt_meaning = findViewById(R.id.txt_meaning);
+        final TextView txt_reading = findViewById(R.id.txt_reading);
+        final Button btn_showAnswer = findViewById(R.id.showAnswer);
+
+        //confirma que a traducao e a leitura estao invisiveis para o usuario
+        txt_reading.setVisibility(View.GONE);
+        txt_meaning.setVisibility(View.GONE);
+
+        /*------le os cards do sql coloca num vetor----------*/
+        //pega todos os cartoes contidos no grupo selecionado pelo usuario
         for(int i=0; i<selectedIds.length; i++){
             Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where cardGroup="+selectedIds[i]+ ";", null);
             c.moveToFirst();
@@ -85,20 +95,22 @@ public class TestActivity extends AppCompatActivity {
                 c.moveToNext();
             }
         }
+        //se os grupos selecionados tiverem vazios, avisa ao usuario
         if(numCards == 0){
             toastMake("Não há cartoes nos grupos selecionados", 0, 350);
             this.finish();
             return;
         }
-
         /*------------------*/
 
+        //prepara variaveis para serem usados dentro das funcoes de outras classes;
         final List<Integer> suffleIndices = shuffleCards(indices);
         final int totalNumCards = numCards;
-        int counter;
-        /*-----Coloca uma das palavras selecionadas-----*/
+
+        /*-----Define a primeira palavra que vai aparecer-----*/
         txt_word.setText(words.get(indices.get(0)));
 
+        //Vigia o comportamento dos botoes de classificacao das palavras
         BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.nav_view_return);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             int counter = 1;
@@ -113,10 +125,11 @@ public class TestActivity extends AppCompatActivity {
                     toastMake("Fim do teste", 0, 350);
                     finish();
                 }
-
+                //Le o learning rate da palavra a partir do BD
                 Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where _id="+cardId.get(counter-1)+ ";", null);
                 c.moveToFirst();
                 lRate = c.getFloat(c.getColumnIndex("cardLR"));
+                //Prepara uma "caixinha" para atualizar dados de BD
                 ContentValues upvalue = new ContentValues();
                 switch (id){
                     case R.id.navigation_difficult:
@@ -129,13 +142,17 @@ public class TestActivity extends AppCompatActivity {
                         lRate = lRate*1;
                         break;
                 }
+                //Atualiza BD de fato
                 upvalue.put("cardLR",lRate);
                 upvalue.put("cardLD", getNowDate());
                 db.update(nomeTabelaCard,upvalue,"_id=?",new String[]{cardId.get(counter-1)});
 
+                //deixa inivisivel a traducao e leitura, se tiverem visiveis.
                 txt_reading.setVisibility(View.GONE);
                 txt_meaning.setVisibility(View.GONE);
+                //deixa visivel o botao de "mostrar traducao" se tiver invisivel.
                 btn_showAnswer.setVisibility(Button.VISIBLE);
+                //mostra a proxima palavra da lista e atualiza contador.
                 txt_word.setText(words.get(suffleIndices.get(counter)));
                 getIntent().putExtra("counter", counter);
                 counter++;
@@ -143,10 +160,12 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-
+        //vigia o botao de "mostrar traducao"
         btn_showAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //se clicado, mostra a traducao, leitura
+                //deixa invisivel o proprio botao
                 txt_reading.setText(reading.get(suffleIndices.get(getIntent().getExtras().getInt("counter"))));
                 txt_meaning.setText(meaning.get(suffleIndices.get(getIntent().getExtras().getInt("counter"))));
                 txt_reading.setVisibility(View.VISIBLE);
@@ -157,18 +176,21 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
-
+    //cria toast -> toastMake("mensagem", 0, 350)
     private void toastMake(String message, int x, int y) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, x, y);
         toast.show();
     }
 
+    //funcao que faz a logica da ordem dos cartoes
+    //precisa retornar uma lista de indices ordenados com a logica
     private List<Integer> shuffleCards(List<Integer> indices){
         Collections.shuffle(indices, new Random());
         return indices;
     }
 
+    //funcao que retorna a data e horario de agora.
     public static String getNowDate(){
         final DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         final Date date = new Date(System.currentTimeMillis());
