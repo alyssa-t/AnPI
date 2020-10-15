@@ -25,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 
 public class TestActivity extends AppCompatActivity {
@@ -64,7 +65,6 @@ public class TestActivity extends AppCompatActivity {
         final List<String> words = new ArrayList<String>();
         final List<String> meaning = new ArrayList<String>();
         final List<String> reading = new ArrayList<String>();
-        List<String>  cardGroup = new ArrayList<String>();
         List<String>  cardId = new ArrayList<String>();
         List<Integer> indices = new ArrayList<Integer>();
         int numCards = 0;
@@ -75,7 +75,6 @@ public class TestActivity extends AppCompatActivity {
                 words.add(c.getString(c.getColumnIndex("cardName")));
                 meaning.add(c.getString(c.getColumnIndex("cardMeaning")));
                 reading.add(c.getString(c.getColumnIndex("cardReading")));
-                cardGroup.add(c.getString(c.getColumnIndex("cardGroup")));
                 cardId.add(c.getString(c.getColumnIndex("_id")));
                 indices.add(numCards);
                 numCards++;
@@ -146,7 +145,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private List<Integer> shuffleCards(List<Integer> indices){
-        Collections.shuffle(indices);
+        Collections.shuffle(indices, new Random());
         return indices;
     }
 }
