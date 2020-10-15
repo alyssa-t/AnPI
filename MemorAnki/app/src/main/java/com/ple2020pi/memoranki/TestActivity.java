@@ -1,5 +1,6 @@
 package com.ple2020pi.memoranki;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -22,8 +23,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -65,7 +69,7 @@ public class TestActivity extends AppCompatActivity {
         final List<String> words = new ArrayList<String>();
         final List<String> meaning = new ArrayList<String>();
         final List<String> reading = new ArrayList<String>();
-        List<String>  cardId = new ArrayList<String>();
+        final List<String>  cardId = new ArrayList<String>();
         List<Integer> indices = new ArrayList<Integer>();
         int numCards = 0;
         for(int i=0; i<selectedIds.length; i++){
@@ -100,6 +104,7 @@ public class TestActivity extends AppCompatActivity {
             int counter = 1;
             @Override
             public boolean onNavigationItemSelected(final MenuItem menuItem) {
+                float lRate;
                 int id = menuItem.getItemId();
 
                 if (totalNumCards <= counter){
@@ -108,17 +113,26 @@ public class TestActivity extends AppCompatActivity {
                     toastMake("Fim do teste", 0, 350);
                     finish();
                 }
+
+                Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where _id="+cardId.get(counter-1)+ ";", null);
+                c.moveToFirst();
+                lRate = c.getFloat(c.getColumnIndex("cardLR"));
+                ContentValues upvalue = new ContentValues();
                 switch (id){
                     case R.id.navigation_difficult:
-                       // toastMake("MUITO DIFICILLL", 0, 350);
+                        lRate = lRate*1;
                         break;
                     case R.id.navigation_medium:
-                       // toastMake("Meh", 0, 350);
+                        lRate = lRate*1;
                         break;
                     case R.id.navigation_easy:
-                       // toastMake("IZI", 0, 350);
+                        lRate = lRate*1;
                         break;
                 }
+                upvalue.put("cardLR",lRate);
+                upvalue.put("cardLD", getNowDate());
+                db.update(nomeTabelaCard,upvalue,"_id=?",new String[]{cardId.get(counter-1)});
+
                 txt_reading.setVisibility(View.GONE);
                 txt_meaning.setVisibility(View.GONE);
                 btn_showAnswer.setVisibility(Button.VISIBLE);
@@ -153,5 +167,11 @@ public class TestActivity extends AppCompatActivity {
     private List<Integer> shuffleCards(List<Integer> indices){
         Collections.shuffle(indices, new Random());
         return indices;
+    }
+
+    public static String getNowDate(){
+        final DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        final Date date = new Date(System.currentTimeMillis());
+        return df.format(date);
     }
 }
