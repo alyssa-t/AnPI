@@ -81,6 +81,12 @@ public class TestActivity extends AppCompatActivity {
                 c.moveToNext();
             }
         }
+        if(numCards == 0){
+            toastMake("Não há cartoes nos grupos selecionados", 0, 350);
+            this.finish();
+            return;
+        }
+
         /*------------------*/
 
         final List<Integer> suffleIndices = shuffleCards(indices);
@@ -96,7 +102,7 @@ public class TestActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(final MenuItem menuItem) {
                 int id = menuItem.getItemId();
 
-                if (totalNumCards == counter){
+                if (totalNumCards <= counter){
                     counter = 1;
                     getIntent().putExtra("counter", counter);
                     toastMake("Fim do teste", 0, 350);
