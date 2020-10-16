@@ -134,6 +134,7 @@ public class TestActivity extends AppCompatActivity {
                     getIntent().putExtra("counter", counter);
                     toastMake("Fim do teste", 0, 350);
                     finish();
+                    return true;
                 }
                 //Le o learning rate da palavra a partir do BD
                 Cursor c = db.rawQuery("select * from " + nomeTabelaCard + " where _id="+cardId.get(counter-1)+ ";", null);
