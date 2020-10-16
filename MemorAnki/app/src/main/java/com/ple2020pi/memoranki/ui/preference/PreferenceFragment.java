@@ -91,9 +91,14 @@ public class PreferenceFragment extends Fragment {
 
         btnChangeCardQty.setOnClickListener(new View.OnClickListener() {
             int newCardQty;
+            AlertDialog.Builder builder;
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                if (!lightMode)
+                    builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
+                else
+                    builder = new AlertDialog.Builder(getContext());
+
                 builder.setTitle("Digite a quantidade de cartões para teste");
                 final EditText input = new EditText(getContext());
                 builder.setView(input);

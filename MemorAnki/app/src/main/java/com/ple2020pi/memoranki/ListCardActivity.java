@@ -116,6 +116,7 @@ public class ListCardActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
+        AlertDialog.Builder builder;
         if(id == R.id.menu_addcard){
             if(!deleteMode){
                 Intent intent = new Intent(getApplication(), RegisterCardActivity.class);
@@ -147,7 +148,10 @@ public class ListCardActivity extends AppCompatActivity {
                 }
             }
             if (selected[0]) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                if (!lightMode)
+                    builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+                else
+                    builder = new AlertDialog.Builder(this);
                 builder.setCancelable(true)
                         .setTitle("Apagar grupo")
                         .setMessage("Tem certeza que quer apagar os cartões selecionados?")

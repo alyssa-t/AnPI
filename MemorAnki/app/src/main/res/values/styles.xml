@@ -18,6 +18,10 @@
 
     </style>
 
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/DarkModeColorButton</item>
+    </style>
+
 
 </resources>
 

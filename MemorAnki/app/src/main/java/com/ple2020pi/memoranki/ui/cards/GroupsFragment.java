@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -142,10 +143,14 @@ public class GroupsFragment extends Fragment {
     //trata acoes quando itens do menu forem selecionadas
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        AlertDialog.Builder builder;
         int id = item.getItemId();
         MenuItem menuEditGroup = myMenu.findItem(R.id.menu_editGroup);
         MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addGroup);
         MenuItem menuDeleteGroup = myMenu.findItem(R.id.menu_deleteGroup);
+
+        SharedPreferences data = getActivity().getSharedPreferences( "Config", getActivity().MODE_PRIVATE);
+        boolean lightMode = data.getBoolean("lightMode", true);
 
         if(id == R.id.menu_addGroup){
             Intent intent = new Intent(getActivity().getApplication(), RegisterGroupActivity.class);
@@ -186,7 +191,10 @@ public class GroupsFragment extends Fragment {
                 }
             }
             if (selected[0]){
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                if (!lightMode)
+                    builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
+                else
+                    builder = new AlertDialog.Builder(getContext());
                 builder.setCancelable(true)
                         .setTitle("Apagar grupo")
                         .setMessage("Tem certeza que quer apagar os grupos selecionados?")
