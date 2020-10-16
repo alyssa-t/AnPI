@@ -29,10 +29,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.ple2020pi.memoranki.AboutActivity;
 import com.ple2020pi.memoranki.ListCardActivity;
 import com.ple2020pi.memoranki.MainActivity;
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
+import com.ple2020pi.memoranki.RegisterCardActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -53,6 +55,7 @@ public class PreferenceFragment extends Fragment {
 
         final Button btnChangeTheme = root.findViewById(R.id.btn_changeTheme);
         final Button btnChangeCardQty = root.findViewById(R.id.btn_changeCardQty);
+        final Button btnAbout = root.findViewById(R.id.btn_about);
 
         data = getActivity().getSharedPreferences( "Config", MODE_PRIVATE);
         editor = data.edit();
@@ -62,6 +65,7 @@ public class PreferenceFragment extends Fragment {
         cardQty = data.getInt("cardQty", 10);
 
         btnChangeCardQty.setText("Mudar quantidade máxima de cartões para teste");
+        btnAbout.setText("Sobre");
 
         if (lightMode)
             btnChangeTheme.setText("Mudar para tema escuro");
@@ -128,6 +132,15 @@ public class PreferenceFragment extends Fragment {
 
             }
         });
+
+        btnAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplication(), AboutActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return root;
     }
 
