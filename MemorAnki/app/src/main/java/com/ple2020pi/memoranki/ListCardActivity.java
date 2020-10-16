@@ -116,8 +116,6 @@ public class ListCardActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
-        //MenuItem menuEditGroup = myMenu.findItem(R.id.menu_deletecard);
-        //MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addcard);
         if(id == R.id.menu_addcard){
             if(!deleteMode){
                 Intent intent = new Intent(getApplication(), RegisterCardActivity.class);

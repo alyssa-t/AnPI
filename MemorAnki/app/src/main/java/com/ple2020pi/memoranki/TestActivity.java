@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +36,13 @@ import java.util.Vector;
 public class TestActivity extends AppCompatActivity {
     private SharedPreferences data;
     private boolean lightMode;
+    private int maxCardQty;
     private String selectedIds[];
     private String nomeTabelaCard = "mycardtb";
     private OpenHelper myOpenHelper;
     private SQLiteDatabase db;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class TestActivity extends AppCompatActivity {
             setTheme(R.style.LightTheme);
         else
             setTheme(R.style.DarkTheme);
+        maxCardQty = data.getInt("cardQty", 10);
         /*----fim da configuracao----*/
 
         //monta layout baseado no activity_test.xml
@@ -75,6 +80,7 @@ public class TestActivity extends AppCompatActivity {
         final TextView txt_meaning = findViewById(R.id.txt_meaning);
         final TextView txt_reading = findViewById(R.id.txt_reading);
         final Button btn_showAnswer = findViewById(R.id.showAnswer);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar); // initiate the progress bar
 
         //confirma que a traducao e a leitura estao invisiveis para o usuario
         txt_reading.setVisibility(View.GONE);
@@ -106,6 +112,9 @@ public class TestActivity extends AppCompatActivity {
         //prepara variaveis para serem usados dentro das funcoes de outras classes;
         final List<Integer> suffleIndices = shuffleCards(indices);
         final int totalNumCards = numCards;
+        if (numCards < maxCardQty)
+            maxCardQty = numCards;
+        progressBar.setMax(maxCardQty*100);
 
         /*-----Define a primeira palavra que vai aparecer-----*/
         txt_word.setText(words.get(indices.get(0)));
@@ -114,12 +123,13 @@ public class TestActivity extends AppCompatActivity {
         BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.nav_view_return);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             int counter = 1;
+            int progress = 0;
             @Override
             public boolean onNavigationItemSelected(final MenuItem menuItem) {
                 float lRate;
                 int id = menuItem.getItemId();
 
-                if (totalNumCards <= counter){
+                if (totalNumCards <= counter || maxCardQty <= counter){
                     counter = 1;
                     getIntent().putExtra("counter", counter);
                     toastMake("Fim do teste", 0, 350);
@@ -155,6 +165,8 @@ public class TestActivity extends AppCompatActivity {
                 //mostra a proxima palavra da lista e atualiza contador.
                 txt_word.setText(words.get(suffleIndices.get(counter)));
                 getIntent().putExtra("counter", counter);
+                progress+=Math.round(100);
+                progressBar.setProgress(progress);
                 counter++;
                 return true;
             }
@@ -196,4 +208,5 @@ public class TestActivity extends AppCompatActivity {
         final Date date = new Date(System.currentTimeMillis());
         return df.format(date);
     }
+
 }

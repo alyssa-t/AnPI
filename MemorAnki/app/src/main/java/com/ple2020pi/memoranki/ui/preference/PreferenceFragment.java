@@ -42,6 +42,7 @@ public class PreferenceFragment extends Fragment {
     private SharedPreferences data;
     private SharedPreferences.Editor editor;
     private boolean lightMode;
+    private int cardQty;
 
     //FUNCAO RELACIONADO A COMPOSICAO DA TELA
     //gerencia listview tbm
@@ -49,10 +50,19 @@ public class PreferenceFragment extends Fragment {
                              final ViewGroup container, Bundle savedInstanceState) {
         preferenceViewModel = ViewModelProviders.of(this).get(PreferenceViewModel.class);
         View root = inflater.inflate(R.layout.fragment_preference, container, false);
+
         final Button btnChangeTheme = root.findViewById(R.id.btn_changeTheme);
+        final Button btnChangeCardQty = root.findViewById(R.id.btn_changeCardQty);
+
         data = getActivity().getSharedPreferences( "Config", MODE_PRIVATE);
         editor = data.edit();
         lightMode = data.getBoolean("lightMode", true);
+        //editor.putInt("cardQty", 10);
+        //editor.apply();
+        cardQty = data.getInt("cardQty", 10);
+
+        btnChangeCardQty.setText("Mudar quantidade máxima de cartões para teste");
+
         if (lightMode)
             btnChangeTheme.setText("Mudar para tema escuro");
         else
@@ -72,15 +82,51 @@ public class PreferenceFragment extends Fragment {
                     editor.apply();
                     btnChangeTheme.setText("Mudar para tema claro");
                 }
-
                 Intent intent = new Intent(getActivity().getApplication(), MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
             }
         });
+
+        btnChangeCardQty.setOnClickListener(new View.OnClickListener() {
+            int newCardQty;
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Digite a quantidade de cartões para teste");
+                final EditText input = new EditText(getContext());
+                builder.setView(input);
+                input.setText(String.valueOf(cardQty));
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try{
+                            newCardQty = Integer.parseInt(input.getText().toString());
+                            editor.putInt("cardQty", newCardQty);
+                            editor.apply();
+                            cardQty = data.getInt("cardQty", 10);
+                        }
+                        catch (Exception e) {
+                            toastMake("Coloque um número inteiro válido", 0, 350);
+                        }
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+            }
+        });
         return root;
     }
+
+
 
 
     @Override
