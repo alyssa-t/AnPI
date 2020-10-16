@@ -26,7 +26,6 @@ public class RegisterGroupActivity extends AppCompatActivity {
     private String nomeTabela = "mygrouptb";
 
     private SharedPreferences data;
-    private SharedPreferences.Editor editor;
     private boolean lightMode;
 
     //comit
@@ -35,7 +34,6 @@ public class RegisterGroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         data = getSharedPreferences( "Config", MODE_PRIVATE);
-        editor = data.edit();
         lightMode = data.getBoolean("lightMode", true);
         if (lightMode)
             setTheme(R.style.LightTheme);

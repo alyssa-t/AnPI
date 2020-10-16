@@ -19,13 +19,11 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences data;
-    private SharedPreferences.Editor editor;
     private boolean lightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         data = getSharedPreferences( "Config", MODE_PRIVATE);
-        editor = data.edit();
         lightMode = data.getBoolean("lightMode", true);
         if (lightMode)
             setTheme(R.style.LightTheme);

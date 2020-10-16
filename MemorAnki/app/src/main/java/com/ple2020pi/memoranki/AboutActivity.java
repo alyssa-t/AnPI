@@ -29,7 +29,6 @@ import org.w3c.dom.Text;
 public class AboutActivity extends AppCompatActivity {
 
     private SharedPreferences data;
-    private SharedPreferences.Editor editor;
     private boolean lightMode;
     //comit
 
@@ -37,7 +36,6 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         data = getSharedPreferences( "Config", MODE_PRIVATE);
-        editor = data.edit();
         lightMode = data.getBoolean("lightMode", true);
         if (lightMode)
             setTheme(R.style.LightTheme);
