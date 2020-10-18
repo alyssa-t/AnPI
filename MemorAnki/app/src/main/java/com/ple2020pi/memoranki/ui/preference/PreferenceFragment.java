@@ -142,7 +142,7 @@ public class PreferenceFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        btnChangeTheme.setOnClickListener(new View.OnClickListener() {
+        btnChangeTTSLocale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toastMake("Ainda nada aqui!",0,350);
