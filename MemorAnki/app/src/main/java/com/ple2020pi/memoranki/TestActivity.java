@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Vector;
 
@@ -41,6 +45,7 @@ public class TestActivity extends AppCompatActivity {
     private String nomeTabelaCard = "mycardtb";
     private OpenHelper myOpenHelper;
     private SQLiteDatabase db;
+    private TextToSpeech tts;
 
     private ProgressBar progressBar;
 
@@ -82,9 +87,29 @@ public class TestActivity extends AppCompatActivity {
         final Button btn_showAnswer = findViewById(R.id.showAnswer);
         progressBar = (ProgressBar)findViewById(R.id.progressBar); // initiate the progress bar
 
+        final ImageButton btn_listen = findViewById(R.id.btn_listen);
+
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) { // <-- I never get into that if statement
+                    int result = tts.setLanguage(Locale.getDefault());
+                    // Language is not supported
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "Language not supported");
+                    }
+                }
+                else {
+                    Log.e("TTS", "" + status); // Returns -1
+                    Log.e("TTS", "" + TextToSpeech.SUCCESS); // Returns 0
+                }
+            }
+        });
+
         //confirma que a traducao e a leitura estao invisiveis para o usuario
         txt_reading.setVisibility(View.GONE);
         txt_meaning.setVisibility(View.GONE);
+        btn_listen.setVisibility(View.GONE);
 
         /*------le os cards do sql coloca num vetor----------*/
         //pega todos os cartoes contidos no grupo selecionado pelo usuario
@@ -161,6 +186,7 @@ public class TestActivity extends AppCompatActivity {
                 //deixa inivisivel a traducao e leitura, se tiverem visiveis.
                 txt_reading.setVisibility(View.GONE);
                 txt_meaning.setVisibility(View.GONE);
+                btn_listen.setVisibility(View.GONE);
                 //deixa visivel o botao de "mostrar traducao" se tiver invisivel.
                 btn_showAnswer.setVisibility(Button.VISIBLE);
                 //mostra a proxima palavra da lista e atualiza contador.
@@ -183,6 +209,7 @@ public class TestActivity extends AppCompatActivity {
                 txt_meaning.setText(meaning.get(suffleIndices.get(getIntent().getExtras().getInt("counter"))));
                 txt_reading.setVisibility(View.VISIBLE);
                 txt_meaning.setVisibility(View.VISIBLE);
+                btn_listen.setVisibility(View.VISIBLE);
                 btn_showAnswer.setVisibility(Button.GONE);
             }
         });
@@ -210,4 +237,10 @@ public class TestActivity extends AppCompatActivity {
         return df.format(date);
     }
 
+    public void ListenWord(View view) {
+        TextView txtCardName = findViewById(R.id.txt_word);
+        String cardName = txtCardName.getText().toString();
+        //tts.setLanguage(Locale.US);
+        tts.speak(cardName, TextToSpeech.QUEUE_FLUSH, null);
+    }
 }

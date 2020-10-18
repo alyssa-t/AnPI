@@ -7,11 +7,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
+import android.speech.tts.TextToSpeech;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class RegisterCardActivity extends AppCompatActivity {
 
@@ -35,7 +39,7 @@ public class RegisterCardActivity extends AppCompatActivity {
     private SharedPreferences data;
     private boolean lightMode;
 
-    //comit
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,24 @@ public class RegisterCardActivity extends AppCompatActivity {
         groupID = intent.getLongExtra("GROUP_ID", -1);
         Button btn_confirmGroupName = findViewById(R.id.btn_confirmCardName);
         Button btn_delete = findViewById(R.id.btn_delete);
+        ImageButton btn_listen = findViewById(R.id.btn_listen);
+
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) { // <-- I never get into that if statement
+                    int result = tts.setLanguage(Locale.getDefault());
+                    // Language is not supported
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "Language not supported");
+                    }
+                }
+                else {
+                    Log.e("TTS", "" + status); // Returns -1
+                    Log.e("TTS", "" + TextToSpeech.SUCCESS); // Returns 0
+                }
+            }
+        });
 
         if(cardID == -1){
             kbn = "add";
@@ -189,5 +211,11 @@ public class RegisterCardActivity extends AppCompatActivity {
 
     public void Return(View view) {
         finish();
+    }
+    public void ListenWord(View view) {
+        EditText txtCardName = findViewById(R.id.txt_inputCardName);
+        String cardName = txtCardName.getText().toString();
+        //tts.setLanguage(Locale.US);
+        tts.speak(cardName, TextToSpeech.QUEUE_FLUSH, null);
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -56,6 +57,7 @@ public class PreferenceFragment extends Fragment {
         final Button btnChangeTheme = root.findViewById(R.id.btn_changeTheme);
         final Button btnChangeCardQty = root.findViewById(R.id.btn_changeCardQty);
         final Button btnAbout = root.findViewById(R.id.btn_about);
+        final Button btnChangeTTSLocale = root.findViewById(R.id.btn_changeTTSLocale);
 
         data = getActivity().getSharedPreferences( "Config", MODE_PRIVATE);
         editor = data.edit();
@@ -138,6 +140,12 @@ public class PreferenceFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getApplication(), AboutActivity.class);
                 startActivity(intent);
+            }
+        });
+        btnChangeTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toastMake("Ainda nada aqui!",0,350);
             }
         });
 
