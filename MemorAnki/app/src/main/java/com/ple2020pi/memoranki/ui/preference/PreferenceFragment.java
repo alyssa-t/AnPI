@@ -152,9 +152,6 @@ public class PreferenceFragment extends Fragment {
         return root;
     }
 
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         setHasOptionsMenu(true);

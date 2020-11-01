@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MemorAnki</string>
+    <string name="title_home">Home</string>
+    <string name="title_study">Estudar</string>
+    <string name="title_notifications">Cartoes</string>
+    <string name="nome_do_novo_grupo">Nome do grupo</string>
+    <string name="atualizar">Atualizar</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="voltar">Voltar</string>
+    <string name="apagar">Apagar</string>
+    <string name="editgroup">Editar</string>
+    <string name="addgroup">Adicionar</string>
+    <string name="deletegroup">Deletar</string>
+    <string name="estudar_selecionados">Estudar selecionados</string>
+    <string name="change_theme">Mudar tema</string>
+    <string name="options">Opções</string>
+    <string name="difficult">Difícil</string>
+    <string name="medium">Médio</string>
+    <string name="easy">Fácil</string>
+    <string name="veryEasy">Muito fácil</string>
+    <string name="showAnswer">Mostrar Resposta</string>
+    <string name="studyHint">Escolha o que achou da palavra para seguir estudando</string>
+</resources>
