@@ -51,8 +51,9 @@ public class AboutActivity extends AppCompatActivity {
         setTitle("Sobre");
 
         TextView txt_about = findViewById(R.id.txt_about);
-        txt_about.setText("Esse é o trabalho de Projeto Integrado no Período Letivo Excepcional de 2020.\n" +
-                            "Criado por Alyssa Takazume e Matheus Lima.\n");
+        txt_about.setText(  "Universidade Federal do Rio de Janeiro, Curso de Engenharia Eletrônica e de Computação\n"+
+                            "Esse é o trabalho de Projeto Integrado no Período Letivo Excepcional de 2020.\n" +
+                            "Criado por Alyssa Takazume e Matheus Lima, sob orientação dos Professores Carlos José Ribas D'avila & Joarez Bastos Monteiro.\n");
 
         BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.nav_view_return);
         navigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {

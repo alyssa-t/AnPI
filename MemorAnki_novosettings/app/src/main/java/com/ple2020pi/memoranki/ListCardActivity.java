@@ -188,6 +188,10 @@ public class ListCardActivity extends AppCompatActivity {
                 dialog.show();
             }
         }
+        else if(id == R.id.menu_preferences){
+            Intent intent = new Intent(getApplication(), SettingsActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
     private void toastMake(String message, int x, int y) {

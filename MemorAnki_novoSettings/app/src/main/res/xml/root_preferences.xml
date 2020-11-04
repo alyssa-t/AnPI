@@ -1,18 +1,18 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory app:title="app settings">
+    <PreferenceCategory app:title="Configurações de Aplicativo">
         <SwitchPreference
             app:key="myPreferences_darkmode"
-            app:title="Usar lightmode"
+            app:title="Usar modo claro"
             app:summaryOff="Off"
             app:summaryOn="On"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Studying">
+    <PreferenceCategory app:title="Configurações de Estudo">
         <ListPreference
             app:key="myPreferences_cardNumber"
-            app:title="Number of cards"
+            app:title="Número de Cartões por Sessão de Estudo"
             app:useSimpleSummaryProvider="true"
             app:entries="@array/numberOfCards_entries"
             app:entryValues="@array/numberOfCards_values"
@@ -20,14 +20,14 @@
             app:summary="%s" />
 
     </PreferenceCategory>
-    <PreferenceCategory app:title="About us">
+    <PreferenceCategory app:title="Sobre nós!">
         <Preference
             app:key="myPreferences_about"
-            app:title="About"/>
+            app:title="Sobre nós!"/>
 
         <Preference
             app:key="myPreferences_version"
-            app:title="App version"
+            app:title="Versão do aplicativo"
             app:summary="@string/app_version"/>
     </PreferenceCategory>
 </PreferenceScreen>

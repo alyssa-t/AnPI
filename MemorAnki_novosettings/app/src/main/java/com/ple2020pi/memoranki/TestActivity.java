@@ -244,7 +244,7 @@ public class TestActivity extends AppCompatActivity {
     public void ListenWord(View view) {
         TextView txtCardName = findViewById(R.id.txt_word);
         String cardName = txtCardName.getText().toString();
-        //tts.setLanguage(Locale.US);
+        tts.setLanguage(Locale.US);
         tts.speak(cardName, TextToSpeech.QUEUE_FLUSH, null);
     }
 }

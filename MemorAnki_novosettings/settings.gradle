@@ -1,4 +1,4 @@
-include ':kuromoji-ipadic-1.0-SNAPSHOT'
-include ':kuromoji-core-1.0-SNAPSHOT'
+//include ':kuromoji-ipadic-1.0-SNAPSHOT'
+//include ':kuromoji-core-1.0-SNAPSHOT'
 include ':app'
 rootProject.name = "MemorAnki"
