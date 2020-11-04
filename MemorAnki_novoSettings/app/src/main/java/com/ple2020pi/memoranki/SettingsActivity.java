@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Intent starterIntent = getIntent();
 
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (myPreferences.getBoolean("myPreferences_darkmode",true)){
@@ -27,7 +28,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences myPreferences, String key) {
                 if (key.equals("myPreferences_darkmode")){
-                    recreate();
+                    finish();
+                    startActivity(starterIntent);
                 }
             }
         };

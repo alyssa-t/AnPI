@@ -49,7 +49,7 @@ public class ListCardActivity extends AppCompatActivity {
         // editor = data.edit();
         // lightMode = data.getBoolean("lightMode", true);
         SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
+        lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
 
         if (lightMode)
             setTheme(R.style.LightTheme);
