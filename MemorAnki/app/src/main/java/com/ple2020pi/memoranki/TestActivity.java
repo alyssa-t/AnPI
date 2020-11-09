@@ -26,6 +26,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -64,13 +65,16 @@ public class TestActivity extends AppCompatActivity {
         int counter; //parece que nao tem uso, mas tem !!!
 
         /*-------retomar configuracoes iniciais da tela do config-----*/
-        data = getSharedPreferences( "Config", MODE_PRIVATE);
-        lightMode = data.getBoolean("lightMode", true);
+        // data = getSharedPreferences( "Config", MODE_PRIVATE);
+        // lightMode = data.getBoolean("lightMode", true);
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
         if (lightMode)
             setTheme(R.style.LightTheme);
         else
             setTheme(R.style.DarkTheme);
-        maxCardQty = data.getInt("cardQty", 10);
+        // maxCardQty = data.getInt("cardQty", 10);
+        maxCardQty = Integer.valueOf(myPreferences.getString("myPreferences_cardNumber","10"));
         /*----fim da configuracao----*/
 
         //monta layout baseado no activity_test.xml
@@ -240,7 +244,7 @@ public class TestActivity extends AppCompatActivity {
     public void ListenWord(View view) {
         TextView txtCardName = findViewById(R.id.txt_word);
         String cardName = txtCardName.getText().toString();
-        //tts.setLanguage(Locale.US);
+        tts.setLanguage(Locale.US);
         tts.speak(cardName, TextToSpeech.QUEUE_FLUSH, null);
     }
 }

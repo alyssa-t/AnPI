@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -35,8 +36,10 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = getSharedPreferences( "Config", MODE_PRIVATE);
-        lightMode = data.getBoolean("lightMode", true);
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
+        // data = getSharedPreferences( "Config", MODE_PRIVATE);
+        // lightMode = data.getBoolean("lightMode", true);
         if (lightMode)
             setTheme(R.style.LightTheme);
         else
@@ -48,8 +51,9 @@ public class AboutActivity extends AppCompatActivity {
         setTitle("Sobre");
 
         TextView txt_about = findViewById(R.id.txt_about);
-        txt_about.setText("Esse é o trabalho de Projeto Integrado no Período Letivo Excepcional de 2020.\n" +
-                            "Criado por Alyssa Takazume e Matheus Lima.\n");
+        txt_about.setText(  "Universidade Federal do Rio de Janeiro, Curso de Engenharia Eletrônica e de Computação\n"+
+                            "Esse é o trabalho de Projeto Integrado no Período Letivo Excepcional de 2020.\n" +
+                            "Criado por Alyssa Takazume e Matheus Lima, sob orientação dos Professores Carlos José Ribas D'avila & Joarez Bastos Monteiro.\n");
 
         BottomNavigationView navigationView = (BottomNavigationView) findViewById(R.id.nav_view_return);
         navigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -59,9 +63,5 @@ public class AboutActivity extends AppCompatActivity {
             }
 
         });
-
     }
-
-
-
 }

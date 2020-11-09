@@ -18,8 +18,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "app_version", "${defaultConfig.versionName}"
+        }
+        debug {
+            versionNameSuffix ".debug"
+            resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
         }
     }
+
     packagingOptions {
         exclude 'META-INF/CONTRIBUTORS.md'
         exclude 'META-INF/DEPENDENCIES.md'
@@ -40,6 +46,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation project(":kuromoji-core-1.0-SNAPSHOT")
-    implementation project(":kuromoji-ipadic-1.0-SNAPSHOT")
+    //implementation project(":kuromoji-core-1.0-SNAPSHOT")
+    //implementation project(":kuromoji-ipadic-1.0-SNAPSHOT")
+    def preference_version = "1.1.1"
+    implementation "androidx.preference:preference:$preference_version"
 }

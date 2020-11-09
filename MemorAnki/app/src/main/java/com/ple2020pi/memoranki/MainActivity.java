@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SimpleCursorAdapter;
 
@@ -16,26 +17,27 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
-    private SharedPreferences data;
-    private boolean lightMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = getSharedPreferences( "Config", MODE_PRIVATE);
-        lightMode = data.getBoolean("lightMode", true);
-        if (lightMode)
+
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (myPreferences.getBoolean("myPreferences_darkmode",true)){
             setTheme(R.style.LightTheme);
-        else
+        }
+        else {
             setTheme(R.style.DarkTheme);
+        }
 
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_study, R.id.navigation_cards, R.id.navigation_preference)
+                R.id.navigation_study, R.id.navigation_cards)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

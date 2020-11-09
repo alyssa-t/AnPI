@@ -1,5 +1,6 @@
 package com.ple2020pi.memoranki;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,8 +17,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import android.speech.tts.TextToSpeech;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,8 +45,11 @@ public class RegisterCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = getSharedPreferences( "Config", MODE_PRIVATE);
-        lightMode = data.getBoolean("lightMode", true);
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
+
+        // data = getSharedPreferences( "Config", MODE_PRIVATE);
+        // lightMode = data.getBoolean("lightMode", true);
         if (lightMode)
             setTheme(R.style.LightTheme);
         else
@@ -178,8 +182,14 @@ public class RegisterCardActivity extends AppCompatActivity {
     }
 
     public void DeleteCard(View view) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
+        AlertDialog.Builder builder;
+        if (!lightMode)
+            builder = new android.app.AlertDialog.Builder(this, R.style.MyDialogTheme);
+        else
+            builder = new android.app.AlertDialog.Builder(this);
+        //AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Apagar cartão");
         builder.setMessage("Gostaria de apagar esse cartão?");
@@ -215,7 +225,7 @@ public class RegisterCardActivity extends AppCompatActivity {
     public void ListenWord(View view) {
         EditText txtCardName = findViewById(R.id.txt_inputCardName);
         String cardName = txtCardName.getText().toString();
-        //tts.setLanguage(Locale.US);
+        tts.setLanguage(Locale.US);
         tts.speak(cardName, TextToSpeech.QUEUE_FLUSH, null);
     }
 }

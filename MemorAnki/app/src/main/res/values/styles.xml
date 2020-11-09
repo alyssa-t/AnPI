@@ -15,7 +15,6 @@
         <item name="colorPrimaryDark">@color/DarkModeColorBg</item>
         <item name="colorAccent">@color/DarkModeColorText</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
-
     </style>
 
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">

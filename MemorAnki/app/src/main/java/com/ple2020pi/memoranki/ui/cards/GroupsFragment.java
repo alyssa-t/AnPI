@@ -26,11 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 
 import com.ple2020pi.memoranki.ListCardActivity;
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
 import com.ple2020pi.memoranki.RegisterGroupActivity;
+import com.ple2020pi.memoranki.SettingsActivity;
 
 public class GroupsFragment extends Fragment {
 
@@ -148,9 +150,14 @@ public class GroupsFragment extends Fragment {
         MenuItem menuEditGroup = myMenu.findItem(R.id.menu_editGroup);
         MenuItem menuAddGroup = myMenu.findItem(R.id.menu_addGroup);
         MenuItem menuDeleteGroup = myMenu.findItem(R.id.menu_deleteGroup);
+        MenuItem menuPreferences = myMenu.findItem(R.id.menu_preferences);
 
-        SharedPreferences data = getActivity().getSharedPreferences( "Config", getActivity().MODE_PRIVATE);
-        boolean lightMode = data.getBoolean("lightMode", true);
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Boolean lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
+
+        // SharedPreferences myPreferences = getActivity().getSharedPreferences( "Config", getActivity().MODE_PRIVATE);
+        // Boolean pref_darkmode =
+
 
         if(id == R.id.menu_addGroup){
             Intent intent = new Intent(getActivity().getApplication(), RegisterGroupActivity.class);
@@ -231,6 +238,11 @@ public class GroupsFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
             }
         }
+        else if(id == R.id.menu_preferences){
+            Intent intent = new Intent(getActivity().getApplication(), SettingsActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -44,13 +45,17 @@ public class ListCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = getSharedPreferences( "Config", MODE_PRIVATE);
-        editor = data.edit();
-        lightMode = data.getBoolean("lightMode", true);
+        // data = getSharedPreferences( "Config", MODE_PRIVATE);
+        // editor = data.edit();
+        // lightMode = data.getBoolean("lightMode", true);
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
+
         if (lightMode)
             setTheme(R.style.LightTheme);
         else
             setTheme(R.style.DarkTheme);
+
         setContentView(R.layout.activity_list_card);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -182,6 +187,10 @@ public class ListCardActivity extends AppCompatActivity {
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
+        }
+        else if(id == R.id.menu_preferences){
+            Intent intent = new Intent(getApplication(), SettingsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

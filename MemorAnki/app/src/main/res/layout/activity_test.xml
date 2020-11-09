@@ -82,19 +82,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_word"
-        app:layout_constraintVertical_bias="0.817" />
+        app:layout_constraintVertical_bias="0.681" />
 
     <ImageButton
         android:id="@+id/btn_listen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="ListenWord"
+
         app:layout_constraintBottom_toTopOf="@+id/studyHint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toEndOf="@+id/showAnswer"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:layout_constraintVertical_bias="0.902"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showAnswer"
+        app:layout_constraintVertical_bias="0.827"
         app:srcCompat="@android:drawable/ic_lock_silent_mode_off" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

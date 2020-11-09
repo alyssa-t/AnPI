@@ -17,5 +17,11 @@
         android:icon="@drawable/ic_ink"
         android:title="@string/editgroup"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_preferences"
+        android:icon="@drawable/ic_preference"
+        android:title="Delete"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
 
 </menu>

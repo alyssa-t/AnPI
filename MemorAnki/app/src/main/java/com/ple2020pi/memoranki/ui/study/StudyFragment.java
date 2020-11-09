@@ -28,6 +28,7 @@ import com.ple2020pi.memoranki.ListCardActivity;
 import com.ple2020pi.memoranki.OpenHelper;
 import com.ple2020pi.memoranki.R;
 import com.ple2020pi.memoranki.RegisterGroupActivity;
+import com.ple2020pi.memoranki.SettingsActivity;
 import com.ple2020pi.memoranki.TestActivity;
 import com.ple2020pi.memoranki.ui.cards.GroupsViewModel;
 
@@ -73,6 +74,7 @@ public class StudyFragment extends Fragment {
         int id = item.getItemId();
         String selectedIds_string[] = {};
         MenuItem menuEditGroup = myMenu.findItem(R.id.menu_start);
+
         SparseBooleanArray checked = myListView.getCheckedItemPositions();
         boolean selected = false;
         int size = checked.size(); // number of name-value pairs in the array
@@ -101,6 +103,10 @@ public class StudyFragment extends Fragment {
             }
             selectedIds.clear();
 
+        }
+        else if(id == R.id.menu_preferences){
+            Intent intent = new Intent(getActivity().getApplication(), SettingsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

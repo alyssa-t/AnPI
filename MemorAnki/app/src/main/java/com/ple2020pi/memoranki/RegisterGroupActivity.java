@@ -2,6 +2,7 @@ package com.ple2020pi.memoranki;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -33,8 +34,12 @@ public class RegisterGroupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = getSharedPreferences( "Config", MODE_PRIVATE);
-        lightMode = data.getBoolean("lightMode", true);
+
+        SharedPreferences myPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean lightMode = myPreferences.getBoolean("myPreferences_darkmode",true);
+
+        // data = getSharedPreferences( "Config", MODE_PRIVATE);
+        // lightMode = data.getBoolean("lightMode", true);
         if (lightMode)
             setTheme(R.style.LightTheme);
         else
