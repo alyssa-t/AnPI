@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="/docs/readme_en.md">English </a>
+    <a href="/docs/README_en.md">English </a>
     ·
     <a href="/README.md">Português Brasileiro</a>
 </p>
@@ -19,4 +19,4 @@ The objective of this work was to create an android app that assists language-le
 • Android Studio 4.0.1
 
 ## Screenshot
-![Alt text](./docs/fragments.png?raw=true "Main")
+![Alt text](./fragments.png?raw=true "Main")
